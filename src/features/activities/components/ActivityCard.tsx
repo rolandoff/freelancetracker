@@ -1,0 +1,67 @@
+import { Clock, FileText } from 'lucide-react'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/badge'
+import type { ActivityWithRelations } from '../hooks/useActivities'
+import { SERVICE_TYPES } from '@/lib/constants'
+
+interface ActivityCardProps {
+  activity: ActivityWithRelations
+  onClick?: () => void
+}
+
+export function ActivityCard({ activity, onClick }: ActivityCardProps) {
+  const serviceType = SERVICE_TYPES.find((st) => st.value === activity.service_type)
+
+  return (
+    <Card
+      className="p-4 cursor-pointer hover:shadow-md transition-shadow bg-card"
+      onClick={onClick}
+    >
+      <div className="space-y-3">
+        <div className="flex items-start justify-between gap-2">
+          <h4 className="font-medium text-sm line-clamp-2">{activity.title}</h4>
+          {serviceType && (
+            <Badge variant="secondary" className="text-xs shrink-0">
+              {serviceType.label}
+            </Badge>
+          )}
+        </div>
+
+        {activity.description && (
+          <p className="text-xs text-muted-foreground line-clamp-2">
+            {activity.description}
+          </p>
+        )}
+
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center gap-3">
+            {activity.project && (
+              <div className="flex items-center gap-1">
+                <div
+                  className="w-3 h-3 rounded-full"
+                  style={{ backgroundColor: activity.project.color || '#gray' }}
+                />
+                <span>{activity.project.name}</span>
+              </div>
+            )}
+            {activity.client && <span>• {activity.client.name}</span>}
+          </div>
+
+          {activity.estimated_hours && (
+            <div className="flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              <span>{activity.estimated_hours}h</span>
+            </div>
+          )}
+        </div>
+
+        {activity.observations && (
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <FileText className="w-3 h-3" />
+            <span className="line-clamp-1">{activity.observations}</span>
+          </div>
+        )}
+      </div>
+    </Card>
+  )
+}

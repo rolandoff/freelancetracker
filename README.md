@@ -205,7 +205,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - [x] Client and project CRUD
 - [x] Basic activities
 - [x] Time tracking (manual)
-- [ ] Kanban board (basic)
+- [x] Kanban board (basic)
 
 ### Phase 2 - Core Features (Weeks 3-4)
 - [ ] Kanban drag & drop with realtime

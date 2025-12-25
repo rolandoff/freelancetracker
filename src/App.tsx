@@ -13,6 +13,7 @@ import { ProfileSettings } from './pages/settings/ProfileSettings'
 import { RatesSettings } from './pages/settings/RatesSettings'
 import { LegalSettings } from './pages/settings/LegalSettings'
 import { PreferencesSettings } from './pages/settings/PreferencesSettings'
+import { KanbanPage } from './features/activities/pages/KanbanPage'
 import { ROUTES } from './lib/constants'
 
 function App() {
@@ -45,8 +46,10 @@ function App() {
               <Route path={ROUTES.CLIENTS} element={<Clients />} />
               <Route path={ROUTES.PROJECTS} element={<Projects />} />
 
+              {/* Activities */}
+              <Route path={ROUTES.KANBAN} element={<KanbanPage />} />
+
               {/* Placeholder routes - will implement later */}
-              <Route path={ROUTES.KANBAN} element={<PlaceholderPage title="Kanban" />} />
               <Route path={ROUTES.INVOICES} element={<PlaceholderPage title="Factures" />} />
               <Route path={ROUTES.URSSAF} element={<PlaceholderPage title="URSSAF" />} />
               <Route path={ROUTES.REPORTS} element={<PlaceholderPage title="Rapports" />} />

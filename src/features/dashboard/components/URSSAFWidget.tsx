@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Progress } from '@/components/ui/progress'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { PiggyBank } from 'lucide-react'
+import { PiggyBank, AlertTriangle, CheckCircle } from 'lucide-react'
 import { formatCurrency } from '@/utils/format'
 import { calculateURSSAF, getURSSAFAlert } from '../utils/urssafCalculations'
 
@@ -51,43 +51,77 @@ export function URSSAFWidget({ annualRevenue, customRate, loading }: URSSAFWidge
         )}
 
         {/* CA Progress */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm">
-            <span className="font-medium">CA Annuel</span>
-            <span className="text-muted-foreground">
-              {formatCurrency(urssafData.annualRevenue)} / {formatCurrency(urssafData.plafondCA)}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-semibold">CA Annuel</span>
+            <span className="text-sm font-mono font-semibold text-primary-600">
+              {formatCurrency(urssafData.annualRevenue)}
             </span>
           </div>
-          <Progress value={Math.min(urssafData.percentageOfPlafond, 100)} className="h-2" />
-          <p className="text-xs text-muted-foreground">
-            {urssafData.percentageOfPlafond.toFixed(1)}% du plafond micro-entrepreneur
-          </p>
+          <div className="relative">
+            <Progress 
+              value={Math.min(urssafData.percentageOfPlafond, 100)} 
+              className="h-3"
+            />
+          </div>
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">
+              {urssafData.percentageOfPlafond.toFixed(1)}% du plafond
+            </span>
+            <span className="font-medium">
+              {formatCurrency(urssafData.plafondCA)}
+            </span>
+          </div>
         </div>
 
         {/* Cotisations */}
-        <div className="rounded-lg border border-border bg-muted/50 p-4">
+        <div className="rounded-xl border-2 border-primary-200 bg-gradient-to-br from-primary-50 to-primary-100/50 p-5">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium">Cotisations URSSAF</p>
-              <p className="text-xs text-muted-foreground">
-                Taux: {urssafData.cotisationsRate}%
-              </p>
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-primary-900">Cotisations URSSAF</p>
+              <div className="flex items-center gap-2">
+                <div className="px-2 py-0.5 rounded-full bg-primary-200 text-primary-800 text-xs font-bold">
+                  {urssafData.cotisationsRate}%
+                </div>
+                <p className="text-xs text-primary-700">de taux</p>
+              </div>
             </div>
-            <p className="text-2xl font-bold">{formatCurrency(urssafData.cotisationsAmount)}</p>
+            <div className="text-right">
+              <p className="text-3xl font-bold text-primary-600">
+                {formatCurrency(urssafData.cotisationsAmount)}
+              </p>
+              <p className="text-xs text-primary-600/70 mt-1">à payer</p>
+            </div>
           </div>
         </div>
 
         {/* Thresholds */}
-        <div className="space-y-2 text-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-muted-foreground">Seuil TVA</span>
-            <span className={urssafData.exceedsTVAThreshold ? 'text-orange-600 font-medium' : ''}>
+        <div className="space-y-3">
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 border border-border/50">
+            {urssafData.exceedsTVAThreshold ? (
+              <AlertTriangle className="h-5 w-5 text-warning-500 flex-shrink-0" />
+            ) : (
+              <CheckCircle className="h-5 w-5 text-success-500 flex-shrink-0" />
+            )}
+            <div className="flex-1">
+              <p className="text-sm font-medium">Seuil TVA</p>
+              <p className="text-xs text-muted-foreground">Franchise TVA</p>
+            </div>
+            <span className={`text-sm font-bold ${urssafData.exceedsTVAThreshold ? 'text-warning-600' : 'text-success-600'}`}>
               {formatCurrency(urssafData.tvaThreshold)}
             </span>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-muted-foreground">Plafond micro-entrepreneur</span>
-            <span className={urssafData.exceedsPlafond ? 'text-red-600 font-medium' : ''}>
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 border border-border/50">
+            {urssafData.exceedsPlafond ? (
+              <AlertTriangle className="h-5 w-5 text-error-500 flex-shrink-0" />
+            ) : (
+              <CheckCircle className="h-5 w-5 text-success-500 flex-shrink-0" />
+            )}
+            <div className="flex-1">
+              <p className="text-sm font-medium">Plafond micro-entrepreneur</p>
+              <p className="text-xs text-muted-foreground">Limite annuelle</p>
+            </div>
+            <span className={`text-sm font-bold ${urssafData.exceedsPlafond ? 'text-error-600' : 'text-success-600'}`}>
               {formatCurrency(urssafData.plafondCA)}
             </span>
           </div>

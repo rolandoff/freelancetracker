@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { LineChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { TrendingUp } from 'lucide-react'
 import { formatCurrency } from '@/utils/format'
 import type { MonthlyRevenueData } from '../hooks/useDashboardData'
@@ -37,31 +37,49 @@ export function RevenueChart({ data, loading }: RevenueChartProps) {
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+              <defs>
+                <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" opacity={0.3} />
               <XAxis 
                 dataKey="month" 
                 className="text-xs"
-                tick={{ fill: 'currentColor' }}
+                tick={{ fill: 'currentColor', fontSize: 12 }}
+                axisLine={{ stroke: '#e5e7eb' }}
               />
               <YAxis 
                 className="text-xs"
-                tick={{ fill: 'currentColor' }}
+                tick={{ fill: 'currentColor', fontSize: 12 }}
                 tickFormatter={(value) => formatCurrency(value)}
+                axisLine={{ stroke: '#e5e7eb' }}
               />
               <Tooltip
                 contentStyle={{
                   backgroundColor: 'hsl(var(--card))',
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '6px',
+                  border: '2px solid #8b5cf6',
+                  borderRadius: '12px',
+                  boxShadow: '0 4px 12px rgba(139, 92, 246, 0.15)',
+                  padding: '12px',
                 }}
-                formatter={(value: number) => [formatCurrency(value), 'CA']}
+                labelStyle={{ fontWeight: 600, marginBottom: '4px' }}
+                formatter={(value: number) => [formatCurrency(value), 'Chiffre d\'Affaires']}
+              />
+              <Area
+                type="monotone"
+                dataKey="revenue"
+                stroke="none"
+                fill="url(#revenueGradient)"
               />
               <Line 
                 type="monotone" 
                 dataKey="revenue" 
-                stroke="hsl(var(--primary))" 
-                strokeWidth={2}
-                dot={{ fill: 'hsl(var(--primary))' }}
+                stroke="#8b5cf6" 
+                strokeWidth={3}
+                dot={{ fill: '#8b5cf6', r: 5, strokeWidth: 2, stroke: '#fff' }}
+                activeDot={{ r: 7, fill: '#7c3aed', stroke: '#fff', strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>

@@ -16,6 +16,7 @@ import { KanbanPage } from './features/activities/pages/KanbanPage'
 import { RatesSettings } from './pages/settings/RatesSettings'
 import { InvoicesPage } from './features/invoices/pages/InvoicesPage'
 import { InvoiceCreatePage } from './features/invoices/pages/InvoiceCreatePage'
+import { InvoiceDetailPage } from './features/invoices/pages/InvoiceDetailPage'
 import { ROUTES } from './lib/constants'
 
 function App() {
@@ -54,7 +55,7 @@ function App() {
               {/* Invoices */}
               <Route path={ROUTES.INVOICES} element={<InvoicesPage />} />
               <Route path="/invoices/new" element={<InvoiceCreatePage />} />
-              <Route path="/invoices/:id" element={<PlaceholderPage title="Détail Facture" />} />
+              <Route path="/invoices/:id" element={<InvoiceDetailPage />} />
             </Route>
 
             {/* 404 */}

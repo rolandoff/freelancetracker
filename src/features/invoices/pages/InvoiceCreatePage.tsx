@@ -18,6 +18,14 @@ interface SelectedActivity {
   total: number
 }
 
+interface InvoiceableActivity {
+  id: string
+  description: string | null
+  estimated_hours: number | null
+  hourly_rate: number | null
+  project: { name: string } | null
+}
+
 export function InvoiceCreatePage() {
   const navigate = useNavigate()
   const { success, error: showError } = useToast()
@@ -33,17 +41,13 @@ export function InvoiceCreatePage() {
   const [notes, setNotes] = useState('')
 
   // Calculate totals
-  // @ts-expect-error - Supabase type inference
-  const selectedActivities: SelectedActivity[] = availableActivities
+  const selectedActivities: SelectedActivity[] = (availableActivities as InvoiceableActivity[] | undefined)
     ?.filter((act) => selectedActivityIds.includes(act.id))
     .map((act) => ({
       id: act.id,
       description: act.description || '',
-      // @ts-expect-error - Supabase type
       hours: act.estimated_hours || 0,
-      // @ts-expect-error - Supabase type
       rate: act.hourly_rate || 0,
-      // @ts-expect-error - Supabase type
       total: (act.estimated_hours || 0) * (act.hourly_rate || 0),
     })) || []
 
@@ -158,11 +162,8 @@ export function InvoiceCreatePage() {
                 </div>
               ) : (
                 <div className="space-y-2">
-                  {/* @ts-expect-error - Supabase type */}
-                  {availableActivities.map((activity) => {
-                    // @ts-expect-error - Supabase type
+                  {(availableActivities as InvoiceableActivity[] | undefined)?.map((activity) => {
                     const hours = activity.estimated_hours || 0
-                    // @ts-expect-error - Supabase type
                     const rate = activity.hourly_rate || 0
                     const activityTotal = hours * rate
 
@@ -178,8 +179,7 @@ export function InvoiceCreatePage() {
                           className="mt-1"
                         />
                         <div className="flex-1">
-                          <div className="font-medium">{activity.description}</div>
-                          {/* @ts-expect-error - Supabase join type */}
+                          <div className="font-medium">{activity.description || 'Sin descripción'}</div>
                           <div className="text-sm text-muted-foreground">
                             Projet: {activity.project?.name || '-'}
                           </div>

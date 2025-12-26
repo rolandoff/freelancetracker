@@ -11,7 +11,7 @@ import { Table, TableHeader, TableHead, TableBody, TableRow, TableCell } from '@
 import { TableSkeleton } from '@/components/ui/Skeleton'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { motion } from 'framer-motion'
-import { Plus, Edit2, Trash2, Archive, Filter, Folder } from 'lucide-react'
+import { Plus, Edit2, Archive, Filter, Folder } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { Project, Client, Database } from '@/types/database.types'
 

@@ -3,7 +3,6 @@ import { QueryProvider } from './providers/QueryProvider'
 import { ThemeProvider } from './providers/ThemeProvider'
 import { AppLayout } from './components/layout/AppLayout'
 import { Login } from './pages/Login'
-import { Register } from './pages/Register'
 import { ForgotPassword } from './pages/ForgotPassword'
 import { Dashboard } from './pages/Dashboard'
 import { Clients } from './pages/Clients'
@@ -27,7 +26,6 @@ function App() {
           <Routes>
             {/* Public routes */}
             <Route path={ROUTES.LOGIN} element={<Login />} />
-            <Route path={ROUTES.REGISTER} element={<Register />} />
             <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
 
             {/* Protected routes */}
@@ -64,20 +62,6 @@ function App() {
         </BrowserRouter>
       </ThemeProvider>
     </QueryProvider>
-  )
-}
-
-// Placeholder component for routes not yet implemented
-function PlaceholderPage({ title }: { title: string }) {
-  return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">{title}</h1>
-      <div className="rounded-lg border border-border bg-card p-8 text-center">
-        <p className="text-muted-foreground">
-          Cette page sera implémentée prochainement
-        </p>
-      </div>
-    </div>
   )
 }
 

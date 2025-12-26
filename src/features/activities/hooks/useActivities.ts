@@ -47,8 +47,9 @@ export const useCreateActivity = () => {
       } = await supabase.auth.getUser()
       if (!user) throw new Error('Not authenticated')
 
-      const { data, error } = await supabase
+      const { data, error} = await supabase
         .from('activities')
+        // @ts-ignore - Supabase type inference issue
         .insert({
           ...activity,
           user_id: user.id,
@@ -78,7 +79,8 @@ export const useUpdateActivity = () => {
     }) => {
       const { data, error } = await supabase
         .from('activities')
-        .update(updates as any)
+        // @ts-ignore - Supabase type inference issue
+        .update(updates as Database['public']['Tables']['activities']['Update'])
         .eq('id', id)
         .select()
         .single()
@@ -114,7 +116,8 @@ export const useUpdateActivityStatus = () => {
 
       const { data, error } = await supabase
         .from('activities')
-        .update(updates as any)
+        // @ts-ignore - Supabase type inference issue
+        .update(updates as Database['public']['Tables']['activities']['Update'])
         .eq('id', id)
         .select()
         .single()

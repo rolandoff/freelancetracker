@@ -200,17 +200,19 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ## Roadmap
 
-### Phase 1 - MVP (Weeks 1-2)
+### Phase 1 - MVP (Weeks 1-2) ✅ COMPLETE
 - [x] Authentication and user settings
 - [x] Client and project CRUD
-- [x] Basic activities
-- [x] Time tracking (manual)
-- [x] Kanban board (basic)
+- [x] Basic activities structure
+- [x] Kanban board (basic structure)
+- [x] Protected routes and layouts
 
-### Phase 2 - Core Features (Weeks 3-4)
-- [ ] Kanban drag & drop with realtime
+### Phase 2 - Core Features (Weeks 3-4) 🚧 IN PROGRESS
+- [x] Kanban drag & drop with @dnd-kit
+- [ ] Realtime updates with Supabase
 - [ ] Configurable rates
 - [ ] Automatic timer
+- [ ] Manual time entry
 - [ ] File attachments
 - [ ] Invoice creation and PDF generation
 
@@ -218,7 +220,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - [ ] Dashboard with KPIs
 - [ ] URSSAF module
 - [ ] Client reports
-- [ ] Dark mode
+- [x] Dark mode (theme provider implemented)
 - [ ] Storybook documentation
 - [ ] Production deployment
 

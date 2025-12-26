@@ -1,4 +1,6 @@
 import { Clock, FileText } from 'lucide-react'
+import { useDraggable } from '@dnd-kit/core'
+import { CSS } from '@dnd-kit/utilities'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/badge'
 import type { ActivityWithRelations } from '../hooks/useActivities'
@@ -7,15 +9,30 @@ import { SERVICE_TYPES } from '@/lib/constants'
 interface ActivityCardProps {
   activity: ActivityWithRelations
   onClick?: () => void
+  isDragOverlay?: boolean
 }
 
-export function ActivityCard({ activity, onClick }: ActivityCardProps) {
+export function ActivityCard({ activity, onClick, isDragOverlay = false }: ActivityCardProps) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+    id: activity.id,
+    disabled: isDragOverlay,
+  })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    opacity: isDragging ? 0.5 : 1,
+  }
+
   const serviceType = SERVICE_TYPES.find((st) => st.value === activity.service_type)
 
   return (
     <Card
+      ref={setNodeRef}
+      style={style}
       className="p-4 cursor-pointer hover:shadow-md transition-shadow bg-card"
       onClick={onClick}
+      {...listeners}
+      {...attributes}
     >
       <div className="space-y-3">
         <div className="flex items-start justify-between gap-2">

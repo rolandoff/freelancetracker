@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useDroppable } from '@dnd-kit/core'
 import { ActivityCard } from './ActivityCard'
 import type { ActivityWithRelations } from '../hooks/useActivities'
 import type { ActivityStatus } from '@/types/database.types'
@@ -18,6 +19,10 @@ export function KanbanColumn({
   activities,
   onActivityClick,
 }: KanbanColumnProps) {
+  const { setNodeRef, isOver } = useDroppable({
+    id: status,
+  })
+
   const columnActivities = useMemo(
     () => activities.filter((a) => a.status === status),
     [activities, status]
@@ -35,7 +40,12 @@ export function KanbanColumn({
         </div>
       </div>
 
-      <div className="flex-1 bg-muted/30 rounded-b-lg p-3 space-y-3 overflow-y-auto">
+      <div
+        ref={setNodeRef}
+        className={`flex-1 bg-muted/30 rounded-b-lg p-3 space-y-3 overflow-y-auto transition-colors ${
+          isOver ? 'bg-primary/10 ring-2 ring-primary' : ''
+        }`}
+      >
         {columnActivities.length === 0 ? (
           <div className="text-center text-sm text-muted-foreground py-8">
             No hay actividades

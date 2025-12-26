@@ -25,7 +25,12 @@ export function InvoiceCreatePage() {
   const createInvoice = useCreateInvoice()
 
   const [selectedClientId, setSelectedClientId] = useState<string>('')
-  const { data: availableActivities } = useInvoiceableActivities(selectedClientId || null)
+  const { data: availableActivities, isLoading: isLoadingActivities } = useInvoiceableActivities(selectedClientId || null)
+  
+  // Debug: log activities when they change
+  console.log('🔍 Selected Client:', selectedClientId)
+  console.log('🔍 Available Activities:', availableActivities)
+  console.log('🔍 Loading:', isLoadingActivities)
   
   const [selectedActivityIds, setSelectedActivityIds] = useState<string[]>([])
   const [discountType, setDiscountType] = useState<'percentage' | 'fixed'>('percentage')
@@ -140,10 +145,22 @@ export function InvoiceCreatePage() {
               <CardTitle>Activités à facturer</CardTitle>
             </CardHeader>
             <CardContent>
-              {!availableActivities || availableActivities.length === 0 ? (
-                <p className="text-muted-foreground text-sm">
-                  Aucune activité complétée disponible pour ce client
-                </p>
+              {isLoadingActivities ? (
+                <p className="text-muted-foreground text-sm">Chargement des activités...</p>
+              ) : !availableActivities || availableActivities.length === 0 ? (
+                <div className="text-sm space-y-2">
+                  <p className="text-muted-foreground">
+                    Aucune activité complétée disponible pour ce client
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Assurez-vous que:
+                  </p>
+                  <ul className="text-xs text-muted-foreground list-disc list-inside">
+                    <li>Le client a des projets assignés</li>
+                    <li>Les activités sont marquées comme "Complétée"</li>
+                    <li>Les activités ont des heures estimées et un taux horaire</li>
+                  </ul>
+                </div>
               ) : (
                 <div className="space-y-2">
                   {/* @ts-expect-error - Supabase type */}

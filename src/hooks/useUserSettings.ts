@@ -31,7 +31,27 @@ export const useUserSettings = () => {
         .from('user_settings')
         .select('*')
         .eq('user_id', user.id)
-        .single()
+        .maybeSingle()
+
+      // If no settings exist, create default ones
+      if (!data && !error) {
+        const { data: newData, error: insertError } = await supabase
+          .from('user_settings')
+          .insert({
+            user_id: user.id,
+            country: 'FR',
+            tva_applicable: false,
+            taux_cotisations: 24.6,
+            plafond_ca_annuel: 77700,
+            theme: 'light',
+            language: 'fr',
+          })
+          .select()
+          .single()
+        
+        if (insertError) throw insertError
+        return newData as UserSettings
+      }
 
       if (error) throw error
       return data as UserSettings

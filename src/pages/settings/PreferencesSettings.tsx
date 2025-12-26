@@ -1,7 +1,9 @@
 import { useUIStore } from '@/stores/uiStore'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Label } from '@/components/ui/Label'
 import { useTranslation } from 'react-i18next'
+import { Moon, Sun } from 'lucide-react'
 
 const LANGUAGES = [
   { code: 'fr', name: 'Français', flag: '🇫🇷' },
@@ -16,6 +18,7 @@ export function PreferencesSettings() {
   
   const handleLanguageChange = (langCode: string) => {
     i18n.changeLanguage(langCode)
+    localStorage.setItem('i18nextLng', langCode)
   }
 
   return (
@@ -41,14 +44,16 @@ export function PreferencesSettings() {
               onClick={() => theme !== 'light' && toggleTheme()}
               className="flex items-center gap-2"
             >
-              ☀️ Clair
+              <Sun className="h-4 w-4" />
+              Clair
             </Button>
             <Button
               variant={theme === 'dark' ? 'primary' : 'secondary'}
               onClick={() => theme !== 'dark' && toggleTheme()}
               className="flex items-center gap-2"
             >
-              🌙 Sombre
+              <Moon className="h-4 w-4" />
+              Sombre
             </Button>
           </div>
         </div>
@@ -62,18 +67,20 @@ export function PreferencesSettings() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            {LANGUAGES.map((lang) => (
-              <Button
-                key={lang.code}
-                variant={i18n.language === lang.code ? 'primary' : 'secondary'}
-                onClick={() => handleLanguageChange(lang.code)}
-                className="flex items-center gap-2 justify-start"
-              >
-                <span className="text-xl">{lang.flag}</span>
-                {lang.name}
-              </Button>
-            ))}
+          <div className="max-w-xs">
+            <Label htmlFor="language-select">Langue</Label>
+            <select
+              id="language-select"
+              value={i18n.language}
+              onChange={(e) => handleLanguageChange(e.target.value)}
+              className="mt-2 w-full px-3 py-2 rounded-lg border-2 border-border bg-background text-foreground focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/20 transition-all"
+            >
+              {LANGUAGES.map((lang) => (
+                <option key={lang.code} value={lang.code}>
+                  {lang.flag} {lang.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </CardContent>

@@ -4,11 +4,11 @@ import { useTimerStore } from '@/stores/timerStore'
 import { supabase } from '@/lib/supabase'
 import { formatDuration } from '@/utils/format'
 import { Button } from '@/components/ui/Button'
-import { Menu, Moon, Sun, LogOut } from 'lucide-react'
+import { Menu, LogOut } from 'lucide-react'
 
 export function Header() {
   const { user } = useAuth()
-  const { theme, toggleTheme, toggleSidebar } = useUIStore()
+  const { toggleSidebar } = useUIStore()
   const { isRunning, elapsedSeconds, activityId } = useTimerStore()
 
   const handleSignOut = async () => {
@@ -39,15 +39,6 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Theme toggle */}
-        <button
-          onClick={toggleTheme}
-          className="p-2 rounded-lg hover:bg-accent transition-all hover:scale-110"
-          aria-label="Toggle theme"
-        >
-          {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-        </button>
-
         {/* User menu */}
         <div className="flex items-center gap-3">
           <div className="text-right">

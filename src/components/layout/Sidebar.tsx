@@ -11,8 +11,6 @@ import {
   Users,
   Folder,
   FileText,
-  PiggyBank,
-  BarChart3,
   Settings,
 } from 'lucide-react'
 
@@ -22,8 +20,6 @@ const navigation = [
   { nameKey: 'sidebar.clients', href: ROUTES.CLIENTS, Icon: Users },
   { nameKey: 'sidebar.projects', href: ROUTES.PROJECTS, Icon: Folder },
   { nameKey: 'sidebar.invoices', href: ROUTES.INVOICES, Icon: FileText },
-  { nameKey: 'sidebar.urssaf', href: ROUTES.URSSAF, Icon: PiggyBank },
-  { nameKey: 'sidebar.reports', href: ROUTES.REPORTS, Icon: BarChart3 },
   { nameKey: 'sidebar.settings', href: ROUTES.SETTINGS, Icon: Settings },
 ]
 

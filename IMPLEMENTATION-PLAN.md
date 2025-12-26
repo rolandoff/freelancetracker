@@ -10,11 +10,11 @@
 ## 🎯 TODO LIST - Current Sprint
 
 ### High Priority (Must Do)
-- [ ] **Invoice Detail Page** - View invoice details, download PDF, edit drafts
-- [ ] **PDF Generation** - Implement @react-pdf/renderer for French legal invoices
+- [x] **Invoice Detail Page** - View invoice details, download PDF, edit drafts ✅
+- [x] **PDF Generation** - Implement @react-pdf/renderer for French legal invoices ✅
   - Include Article 293 B CGI mention
   - Company info, client info, line items, totals
-  - Upload to Supabase Storage
+  - Professional layout with French legal mentions
 - [ ] **E2E Test Implementation** - Run Playwright tests for critical flows
   - Auth flow (login, register, forgot password)
   - Client CRUD with validation
@@ -1091,7 +1091,7 @@ npm run build:storybook  # Build Storybook static site
 - **Pages**: Login, Register, Dashboard, ProfileSettings (9/15 passing)
 - **Note**: Clients.test.tsx created but needs E2E approach for inline queries
 
-#### Session 3 (Latest - 04:52 UTC+1)
+#### Session 3 (Latest - 05:02 UTC+1)
 - **Invoice Module**: ✅ COMPLETE
   - useInvoices hooks (create, list, update status, delete)
   - InvoicesPage with filters and status management
@@ -1118,8 +1118,15 @@ npm run build:storybook  # Build Storybook static site
   - Dev server working: http://localhost:3000/
   - Storybook working: http://localhost:6006/
 
+- **Invoice Detail & PDF**: ✅ COMPLETE
+  - InvoiceDetailPage with view/edit/delete actions
+  - PDF generation with @react-pdf/renderer
+  - French legal template (Article 293 B CGI)
+  - Professional layout with all required info
+  - Download as 'Facture_[number].pdf'
+
 - **Git Workflow**: ✅ ORGANIZED
-  - 8 logical commits created and pushed
+  - 11 logical commits created and pushed
   - Conventional commit messages
   - Feature-based commit organization
 

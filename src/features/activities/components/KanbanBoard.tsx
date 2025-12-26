@@ -18,10 +18,12 @@ import { Plus } from 'lucide-react'
 import { useActivities, useUpdateActivityStatus } from '../hooks/useActivities'
 import { useActivitiesRealtime } from '../hooks/useActivitiesRealtime'
 import { ACTIVITY_STATUSES } from '@/lib/constants'
+import { useTranslation } from 'react-i18next'
 import type { ActivityWithRelations } from '../hooks/useActivities'
 import type { ActivityStatus } from '@/types/database.types'
 
 export function KanbanBoard() {
+  const { t } = useTranslation()
   const { data: activities, isLoading } = useActivities()
   const updateStatus = useUpdateActivityStatus()
   
@@ -63,7 +65,7 @@ export function KanbanBoard() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="text-muted-foreground">Cargando actividades...</div>
+        <div className="text-muted-foreground">{t('kanban.loading')}</div>
       </div>
     )
   }
@@ -77,10 +79,10 @@ export function KanbanBoard() {
     >
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">Kanban</h1>
+          <h1 className="text-3xl font-bold">{t('kanban.title')}</h1>
           <Button onClick={() => setIsCreating(true)}>
             <Plus className="w-4 h-4 mr-2" />
-            Nueva Actividad
+            {t('kanban.newActivity')}
           </Button>
         </div>
 

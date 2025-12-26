@@ -105,6 +105,11 @@
     "invoiceCreatedSuccess": "The invoice has been created successfully",
     "discountApplied": "Discount applied"
   },
+  "kanban": {
+    "title": "Kanban",
+    "loading": "Loading activities...",
+    "newActivity": "New Activity"
+  },
   "settings": {
     "title": "Settings",
     "profile": "Profile",

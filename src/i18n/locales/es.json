@@ -105,6 +105,11 @@
     "invoiceCreatedSuccess": "La factura se ha creado correctamente",
     "discountApplied": "Descuento aplicado"
   },
+  "kanban": {
+    "title": "Kanban",
+    "loading": "Cargando actividades...",
+    "newActivity": "Nueva Actividad"
+  },
   "settings": {
     "title": "Configuración",
     "profile": "Perfil",

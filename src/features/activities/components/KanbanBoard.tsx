@@ -11,6 +11,7 @@ import {
 } from '@dnd-kit/core'
 import { KanbanColumn } from './KanbanColumn'
 import { ActivityCard } from './ActivityCard'
+import { ActivityForm } from './ActivityForm'
 import { Button } from '@/components/ui/Button'
 import { Plus } from 'lucide-react'
 import { useActivities, useUpdateActivityStatus } from '../hooks/useActivities'
@@ -25,8 +26,9 @@ export function KanbanBoard() {
   
   // Enable realtime updates
   useActivitiesRealtime()
-  const [_selectedActivity, setSelectedActivity] = useState<ActivityWithRelations | null>(null)
+  const [selectedActivity, setSelectedActivity] = useState<ActivityWithRelations | null>(null)
   const [activeActivity, setActiveActivity] = useState<ActivityWithRelations | null>(null)
+  const [isCreating, setIsCreating] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -74,7 +76,7 @@ export function KanbanBoard() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Kanban</h1>
-          <Button>
+          <Button onClick={() => setIsCreating(true)}>
             <Plus className="w-4 h-4 mr-2" />
             Nueva Actividad
           </Button>
@@ -99,6 +101,15 @@ export function KanbanBoard() {
       <DragOverlay>
         {activeActivity ? <ActivityCard activity={activeActivity} isDragOverlay /> : null}
       </DragOverlay>
+
+      {isCreating && <ActivityForm onClose={() => setIsCreating(false)} />}
+
+      {selectedActivity && (
+        <ActivityForm
+          activity={selectedActivity}
+          onClose={() => setSelectedActivity(null)}
+        />
+      )}
     </DndContext>
   )
 }

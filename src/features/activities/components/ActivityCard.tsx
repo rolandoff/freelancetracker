@@ -1,8 +1,10 @@
-import { Clock, FileText } from 'lucide-react'
+import { Clock, FileText, Play } from 'lucide-react'
 import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/Button'
+import { useTimerStore } from '@/stores/timerStore'
 import type { ActivityWithRelations } from '../hooks/useActivities'
 import { SERVICE_TYPES } from '@/lib/constants'
 
@@ -17,6 +19,7 @@ export function ActivityCard({ activity, onClick, isDragOverlay = false }: Activ
     id: activity.id,
     disabled: isDragOverlay,
   })
+  const startTimer = useTimerStore((state) => state.startTimer)
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -24,6 +27,11 @@ export function ActivityCard({ activity, onClick, isDragOverlay = false }: Activ
   }
 
   const serviceType = SERVICE_TYPES.find((st) => st.value === activity.service_type)
+
+  const handleStartTimer = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    startTimer(activity.id)
+  }
 
   return (
     <Card
@@ -37,11 +45,22 @@ export function ActivityCard({ activity, onClick, isDragOverlay = false }: Activ
       <div className="space-y-3">
         <div className="flex items-start justify-between gap-2">
           <h4 className="font-medium text-sm line-clamp-2">{activity.title}</h4>
-          {serviceType && (
-            <Badge variant="secondary" className="text-xs shrink-0">
-              {serviceType.label}
-            </Badge>
-          )}
+          <div className="flex items-center gap-1 shrink-0">
+            {serviceType && (
+              <Badge variant="secondary" className="text-xs">
+                {serviceType.label}
+              </Badge>
+            )}
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={handleStartTimer}
+              className="h-6 w-6 p-0"
+              title="Start timer"
+            >
+              <Play className="w-3 h-3" />
+            </Button>
+          </div>
         </div>
 
         {activity.description && (

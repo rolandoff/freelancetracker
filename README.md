@@ -211,8 +211,8 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - [x] Kanban drag & drop with @dnd-kit
 - [x] Realtime updates with Supabase
 - [x] Configurable rates (base + client-specific)
-- [ ] Automatic timer
-- [ ] Manual time entry
+- [x] Automatic timer with sidebar widget
+- [ ] Manual time entry forms
 - [ ] File attachments
 - [ ] Invoice creation and PDF generation
 

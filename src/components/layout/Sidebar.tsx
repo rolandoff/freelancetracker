@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import { useUIStore } from '@/stores/uiStore'
 import { ROUTES } from '@/lib/constants'
 import { clsx } from 'clsx'
+import { TimeTracker } from '@/features/activities/components/TimeTracker'
 
 const navigation = [
   { name: 'Dashboard', href: ROUTES.DASHBOARD, icon: 'LayoutDashboard' },
@@ -37,7 +38,7 @@ export function Sidebar() {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 space-y-1 p-4">
+        <nav className="flex-1 space-y-1 p-4 overflow-y-auto">
           {navigation.map((item) => (
             <NavLink
               key={item.name}
@@ -59,6 +60,13 @@ export function Sidebar() {
             </NavLink>
           ))}
         </nav>
+
+        {/* Timer Widget */}
+        {sidebarOpen && (
+          <div className="p-4 border-t border-border">
+            <TimeTracker />
+          </div>
+        )}
       </aside>
 
       {/* Mobile sidebar */}

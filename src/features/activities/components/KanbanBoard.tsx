@@ -12,6 +12,7 @@ import {
 import { KanbanColumn } from './KanbanColumn'
 import { ActivityCard } from './ActivityCard'
 import { ActivityForm } from './ActivityForm'
+import { ActivityDetailModal } from './ActivityDetailModal'
 import { Button } from '@/components/ui/Button'
 import { Plus } from 'lucide-react'
 import { useActivities, useUpdateActivityStatus } from '../hooks/useActivities'
@@ -27,6 +28,7 @@ export function KanbanBoard() {
   // Enable realtime updates
   useActivitiesRealtime()
   const [selectedActivity, setSelectedActivity] = useState<ActivityWithRelations | null>(null)
+  const [editingActivity, setEditingActivity] = useState<ActivityWithRelations | null>(null)
   const [activeActivity, setActiveActivity] = useState<ActivityWithRelations | null>(null)
   const [isCreating, setIsCreating] = useState(false)
 
@@ -95,19 +97,32 @@ export function KanbanBoard() {
           ))}
         </div>
 
-        {/* TODO: Add ActivityDetailModal when selectedActivity is set */}
       </div>
 
       <DragOverlay>
         {activeActivity ? <ActivityCard activity={activeActivity} isDragOverlay /> : null}
       </DragOverlay>
 
+      {/* Create Activity Form */}
       {isCreating && <ActivityForm onClose={() => setIsCreating(false)} />}
 
-      {selectedActivity && (
+      {/* Edit Activity Form */}
+      {editingActivity && (
         <ActivityForm
+          activity={editingActivity}
+          onClose={() => setEditingActivity(null)}
+        />
+      )}
+
+      {/* Activity Detail Modal */}
+      {selectedActivity && (
+        <ActivityDetailModal
           activity={selectedActivity}
           onClose={() => setSelectedActivity(null)}
+          onEdit={() => {
+            setEditingActivity(selectedActivity)
+            setSelectedActivity(null)
+          }}
         />
       )}
     </DndContext>

@@ -120,11 +120,13 @@ export function ActivityForm({ activity, onClose }: ActivityFormProps) {
   }
 
   return (
-    <Modal onClose={onClose}>
+    <Modal
+      isOpen={true}
+      onClose={onClose}
+      title={activity ? 'Editar Actividad' : 'Nueva Actividad'}
+      size="lg"
+    >
       <div className="space-y-4 max-h-[80vh] overflow-y-auto">
-        <h2 className="text-2xl font-bold">
-          {activity ? 'Editar Actividad' : 'Nueva Actividad'}
-        </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">

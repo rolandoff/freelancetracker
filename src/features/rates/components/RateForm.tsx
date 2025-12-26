@@ -70,11 +70,13 @@ export function RateForm({ rate, clientId, clientName, onClose }: RateFormProps)
   }
 
   return (
-    <Modal open onClose={onClose}>
+    <Modal
+      isOpen={true}
+      onClose={onClose}
+      title={rate ? 'Editar Tarifa' : clientName ? `Nueva Tarifa para ${clientName}` : 'Nueva Tarifa Base'}
+      size="lg"
+    >
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">
-          {rate ? 'Editar Tarifa' : clientName ? `Nueva Tarifa para ${clientName}` : 'Nueva Tarifa Base'}
-        </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
@@ -124,7 +126,7 @@ export function RateForm({ rate, clientId, clientName, onClose }: RateFormProps)
           </div>
 
           <div className="flex gap-2 justify-end">
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button type="button" variant="secondary" onClick={onClose}>
               Cancelar
             </Button>
             <Button type="submit" disabled={isSubmitting}>

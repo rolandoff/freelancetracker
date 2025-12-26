@@ -211,7 +211,14 @@ export const useInvoiceableActivities = (clientId: string | null) => {
       const {
         data: { user },
       } = await supabase.auth.getUser()
-      if (!user || !clientId) return []
+      
+      console.log('🔧 useInvoiceableActivities - User:', user?.id)
+      console.log('🔧 useInvoiceableActivities - Client ID:', clientId)
+      
+      if (!user || !clientId) {
+        console.log('❌ No user or client ID')
+        return []
+      }
 
       // First, get all projects for this client
       const { data: projects, error: projectsError } = await supabase
@@ -220,11 +227,21 @@ export const useInvoiceableActivities = (clientId: string | null) => {
         .eq('client_id', clientId)
         .eq('user_id', user.id)
 
-      if (projectsError) throw projectsError
-      if (!projects || projects.length === 0) return []
+      console.log('🔧 Projects query result:', { projects, projectsError })
+
+      if (projectsError) {
+        console.error('❌ Projects error:', projectsError)
+        throw projectsError
+      }
+      
+      if (!projects || projects.length === 0) {
+        console.log('⚠️ No projects found for this client')
+        return []
+      }
 
       // @ts-expect-error - Supabase type inference
       const projectIds = projects.map((p) => p.id)
+      console.log('🔧 Project IDs:', projectIds)
 
       // Then get completed activities for those projects
       const { data, error } = await supabase
@@ -235,9 +252,17 @@ export const useInvoiceableActivities = (clientId: string | null) => {
         .in('project_id', projectIds)
         .order('created_at', { ascending: false })
 
-      if (error) throw error
-      return data
+      console.log('🔧 Activities query result:', { data, error })
+
+      if (error) {
+        console.error('❌ Activities error:', error)
+        throw error
+      }
+      
+      console.log('✅ Returning activities:', data || [])
+      return data || []
     },
     enabled: !!clientId,
+    initialData: [],
   })
 }

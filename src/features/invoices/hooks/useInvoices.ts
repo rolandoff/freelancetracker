@@ -205,9 +205,12 @@ export const useDeleteInvoice = () => {
 
 // Get activities ready to be invoiced for a client
 export const useInvoiceableActivities = (clientId: string | null) => {
+  console.log('🚀 Hook called with clientId:', clientId)
+  
   return useQuery({
     queryKey: ['activities', 'invoiceable', clientId],
     queryFn: async () => {
+      console.log('🔧 QueryFn executing!')
       const {
         data: { user },
       } = await supabase.auth.getUser()
@@ -263,6 +266,8 @@ export const useInvoiceableActivities = (clientId: string | null) => {
       return data || []
     },
     enabled: !!clientId,
-    initialData: [],
+    staleTime: 0,
+    cacheTime: 0,
+    refetchOnMount: 'always',
   })
 }

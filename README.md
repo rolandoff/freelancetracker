@@ -198,40 +198,34 @@ Security is a top priority. Please see [SECURITY.md](./docs/SECURITY.md) for:
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
-## Roadmap
+## Implementation Status
 
-### Phase 1 - MVP (Weeks 1-2) ✅ COMPLETE
-- [x] Authentication and user settings
-- [x] Client and project CRUD
-- [x] Basic activities structure
-- [x] Kanban board (basic structure)
-- [x] Protected routes and layouts
+**Current Phase**: Phase 3 - Polish & Deploy (~85% Complete)
 
-### Phase 2 - Core Features (Weeks 3-4) 🚧 IN PROGRESS
-- [x] Kanban drag & drop with @dnd-kit
-- [x] Realtime updates with Supabase
-- [x] Configurable rates (base + client-specific)
-- [x] Automatic timer with sidebar widget
-- [x] File attachments (upload/download/delete)
-- [x] Manual time entry forms
-- [ ] Invoice creation and PDF generation
+For detailed implementation status, roadmap, and next steps, see:
+- **[IMPLEMENTATION-PLAN.md](./IMPLEMENTATION-PLAN.md)** - Complete implementation roadmap with current status
+- **[PROGRESS.md](./PROGRESS.md)** - Detailed progress tracking
 
-### Phase 3 - Polish (Week 5)
-- [ ] Dashboard with KPIs
-- [ ] URSSAF module
-- [ ] Client reports
-- [x] Dark mode (theme provider implemented)
-- [ ] Storybook documentation
-- [ ] Production deployment
+### Quick Status Summary
 
-### Future Enhancements
-- [ ] Email invoice delivery
-- [ ] Multi-currency support
-- [ ] Recurring invoices
-- [ ] Mobile app (React Native)
-- [ ] Expense tracking
-- [ ] Bank reconciliation
-- [ ] Multi-user/team support
+✅ **Completed**:
+- Authentication & user management
+- Clients & Projects CRUD
+- Kanban board with drag & drop
+- Time tracking (timer + manual entry)
+- File attachments
+- Invoice creation & PDF generation
+- Real-time updates
+- Dark/light theme
+
+🚧 **In Progress**:
+- Settings pages completion
+- Dashboard with real metrics
+- Test coverage (60% → 80%+)
+
+📋 **Next Up**:
+- Storybook documentation
+- Production deployment
 
 ## Support
 

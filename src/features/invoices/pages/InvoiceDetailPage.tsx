@@ -6,8 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/badge'
 import { useInvoice, useUpdateInvoiceStatus, useDeleteInvoice } from '../hooks/useInvoices'
 import { useToast } from '@/hooks/useToast'
+import { useUserSettings } from '@/hooks/useUserSettings'
 import { formatCurrency } from '@/utils/format'
 import { format } from 'date-fns'
+import { pdf } from '@react-pdf/renderer'
+import { InvoicePDF } from '../utils/generateInvoicePDF'
 
 const STATUS_LABELS: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
   borrador: { label: 'Brouillon', variant: 'default' },
@@ -23,6 +26,7 @@ export function InvoiceDetailPage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
   const { data: invoice, isLoading } = useInvoice(id!)
+  const { data: userSettings } = useUserSettings()
   const updateStatus = useUpdateInvoiceStatus()
   const deleteInvoice = useDeleteInvoice()
 
@@ -52,9 +56,32 @@ export function InvoiceDetailPage() {
     }
   }
 
-  const handleDownloadPDF = () => {
-    // TODO: Implement PDF generation
-    toast({ type: 'info', title: 'Génération PDF - À venir' })
+  const handleDownloadPDF = async () => {
+    if (!invoice || !userSettings) {
+      toast({ type: 'error', title: 'Données manquantes' })
+      return
+    }
+
+    try {
+      toast({ type: 'info', title: 'Génération du PDF...' })
+      
+      // @ts-expect-error - Supabase type inference issues with joins
+      const blob = await pdf(<InvoicePDF invoice={invoice} userSettings={userSettings} />).toBlob()
+      
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `Facture_${invoice.invoice_number}.pdf`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+      
+      toast({ type: 'success', title: 'PDF téléchargé' })
+    } catch (error) {
+      console.error('PDF generation error:', error)
+      toast({ type: 'error', title: 'Erreur lors de la génération du PDF' })
+    }
   }
 
   if (isLoading) {

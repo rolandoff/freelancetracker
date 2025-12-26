@@ -7,6 +7,22 @@ afterEach(() => {
   cleanup()
 })
 
+// Mock react-i18next
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+    i18n: {
+      changeLanguage: () => new Promise(() => {}),
+      language: 'en',
+    },
+  }),
+  Trans: ({ children }: { children: React.ReactNode }) => children,
+  initReactI18next: {
+    type: '3rdParty',
+    init: () => {},
+  },
+}))
+
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

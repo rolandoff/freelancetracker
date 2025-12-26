@@ -227,7 +227,7 @@ describe('KanbanBoard', () => {
     const user = userEvent.setup()
     render(<KanbanBoard />)
 
-    await user.click(screen.getByRole('button', { name: /new activity|nueva actividad|nouvelle activité/i }))
+    await user.click(screen.getByRole('button', { name: /kanban\.newActivity/i }))
 
     expect(screen.getByTestId('activity-form-create')).toBeInTheDocument()
 

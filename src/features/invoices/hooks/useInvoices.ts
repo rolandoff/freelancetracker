@@ -113,11 +113,12 @@ export const useCreateInvoice = () => {
           subtotal,
           discount_amount: discountAmount,
           discount_percentage: invoice.discount_type === 'percentage' ? invoice.discount_amount || 0 : 0,
-          discount_type: invoice.discount_type || 'percentage',
           total: total,
           status: 'borrador' as const,
           notes: invoice.notes || null,
           paid_date: null,
+          payment_terms: null,
+          pdf_path: null,
         } as any)
         .select()
         .single()) as any

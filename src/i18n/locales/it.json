@@ -145,6 +145,21 @@
     "statusUpdatedSuccess": "Lo stato del progetto è stato aggiornato",
     "statusUpdateError": "Impossibile aggiornare lo stato"
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Benvenuto nella tua dashboard",
+    "monthlyRevenue": "Fatturato Mensile",
+    "annualRevenue": "Fatturato Annuale",
+    "activeActivities": "Attività Attive",
+    "pendingInvoices": "Fatture in Sospeso",
+    "quickActions": "Azioni Rapide",
+    "newActivity": "Nuova Attività",
+    "newActivityDesc": "Crea una nuova attività",
+    "newInvoice": "Nuova Fattura",
+    "newInvoiceDesc": "Genera una fattura",
+    "newClient": "Nuovo Cliente",
+    "newClientDesc": "Aggiungi un cliente"
+  },
   "settings": {
     "title": "Impostazioni",
     "profile": "Profilo",

@@ -145,6 +145,21 @@
     "statusUpdatedSuccess": "El estado del proyecto se ha actualizado",
     "statusUpdateError": "No se pudo actualizar el estado"
   },
+  "dashboard": {
+    "title": "Panel de Control",
+    "welcome": "Bienvenido a tu panel de control",
+    "monthlyRevenue": "Ingresos Mensuales",
+    "annualRevenue": "Ingresos Anuales",
+    "activeActivities": "Actividades Activas",
+    "pendingInvoices": "Facturas Pendientes",
+    "quickActions": "Acciones Rápidas",
+    "newActivity": "Nueva Actividad",
+    "newActivityDesc": "Crear una nueva tarea",
+    "newInvoice": "Nueva Factura",
+    "newInvoiceDesc": "Generar una factura",
+    "newClient": "Nuevo Cliente",
+    "newClientDesc": "Añadir un cliente"
+  },
   "settings": {
     "title": "Configuración",
     "profile": "Perfil",

@@ -145,6 +145,21 @@
     "statusUpdatedSuccess": "Project status has been updated",
     "statusUpdateError": "Unable to update status"
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome to your dashboard",
+    "monthlyRevenue": "Monthly Revenue",
+    "annualRevenue": "Annual Revenue",
+    "activeActivities": "Active Activities",
+    "pendingInvoices": "Pending Invoices",
+    "quickActions": "Quick Actions",
+    "newActivity": "New Activity",
+    "newActivityDesc": "Create a new task",
+    "newInvoice": "New Invoice",
+    "newInvoiceDesc": "Generate an invoice",
+    "newClient": "New Client",
+    "newClientDesc": "Add a client"
+  },
   "settings": {
     "title": "Settings",
     "profile": "Profile",

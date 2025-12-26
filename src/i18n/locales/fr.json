@@ -145,6 +145,21 @@
     "statusUpdatedSuccess": "Le statut du projet a été mis à jour",
     "statusUpdateError": "Impossible de modifier le statut"
   },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bienvenue sur votre tableau de bord",
+    "monthlyRevenue": "CA Mensuel",
+    "annualRevenue": "CA Annuel",
+    "activeActivities": "Activités Actives",
+    "pendingInvoices": "Factures en Attente",
+    "quickActions": "Actions Rapides",
+    "newActivity": "Nouvelle Activité",
+    "newActivityDesc": "Créer une nouvelle tâche",
+    "newInvoice": "Nouvelle Facture",
+    "newInvoiceDesc": "Générer une facture",
+    "newClient": "Nouveau Client",
+    "newClientDesc": "Ajouter un client"
+  },
   "settings": {
     "title": "Paramètres",
     "profile": "Profil",

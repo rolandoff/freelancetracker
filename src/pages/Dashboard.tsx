@@ -5,8 +5,10 @@ import { RevenueChart } from '@/features/dashboard/components/RevenueChart'
 import { URSSAFWidget } from '@/features/dashboard/components/URSSAFWidget'
 import { useDashboardKPIs, useMonthlyRevenue } from '@/features/dashboard/hooks/useDashboardData'
 import { formatCurrency } from '@/utils/format'
+import { useTranslation } from 'react-i18next'
 
 export function Dashboard() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { data: kpis, isLoading: kpisLoading } = useDashboardKPIs()
   const { data: monthlyRevenue, isLoading: chartLoading } = useMonthlyRevenue()
@@ -15,34 +17,34 @@ export function Dashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
         <p className="text-muted-foreground">
-          Bienvenue sur votre tableau de bord
+          {t('dashboard.welcome')}
         </p>
       </div>
 
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <KPICard
-          title="CA Mensuel"
+          title={t('dashboard.monthlyRevenue')}
           value={kpis ? formatCurrency(kpis.monthlyRevenue) : '—'}
           icon={Euro}
           loading={kpisLoading}
         />
         <KPICard
-          title="CA Annuel"
+          title={t('dashboard.annualRevenue')}
           value={kpis ? formatCurrency(kpis.annualRevenue) : '—'}
           icon={TrendingUp}
           loading={kpisLoading}
         />
         <KPICard
-          title="Activités Actives"
+          title={t('dashboard.activeActivities')}
           value={kpis?.activeActivitiesCount ?? 0}
           icon={Activity}
           loading={kpisLoading}
         />
         <KPICard
-          title="Factures en Attente"
+          title={t('dashboard.pendingInvoices')}
           value={kpis?.pendingInvoicesCount ?? 0}
           icon={FileText}
           trend={
@@ -65,7 +67,7 @@ export function Dashboard() {
 
       {/* Quick Actions */}
       <div className="rounded-lg border border-border bg-card p-6">
-        <h2 className="text-xl font-semibold mb-4">Actions Rapides</h2>
+        <h2 className="text-xl font-semibold mb-4">{t('dashboard.quickActions')}</h2>
         <div className="grid gap-4 md:grid-cols-3">
           <button
             onClick={() => navigate('/kanban')}
@@ -75,8 +77,8 @@ export function Dashboard() {
               <Plus className="w-5 h-5 text-primary" />
               <span className="text-2xl">📝</span>
             </div>
-            <h3 className="font-medium">Nouvelle Activité</h3>
-            <p className="text-sm text-muted-foreground">Créer une nouvelle tâche</p>
+            <h3 className="font-medium">{t('dashboard.newActivity')}</h3>
+            <p className="text-sm text-muted-foreground">{t('dashboard.newActivityDesc')}</p>
           </button>
           <button
             onClick={() => navigate('/invoices/new')}
@@ -86,8 +88,8 @@ export function Dashboard() {
               <FileText className="w-5 h-5 text-primary" />
               <span className="text-2xl">📄</span>
             </div>
-            <h3 className="font-medium">Nouvelle Facture</h3>
-            <p className="text-sm text-muted-foreground">Générer une facture</p>
+            <h3 className="font-medium">{t('dashboard.newInvoice')}</h3>
+            <p className="text-sm text-muted-foreground">{t('dashboard.newInvoiceDesc')}</p>
           </button>
           <button
             onClick={() => navigate('/clients')}
@@ -97,8 +99,8 @@ export function Dashboard() {
               <User className="w-5 h-5 text-primary" />
               <span className="text-2xl">👤</span>
             </div>
-            <h3 className="font-medium">Nouveau Client</h3>
-            <p className="text-sm text-muted-foreground">Ajouter un client</p>
+            <h3 className="font-medium">{t('dashboard.newClient')}</h3>
+            <p className="text-sm text-muted-foreground">{t('dashboard.newClientDesc')}</p>
           </button>
         </div>
       </div>

@@ -1,9 +1,22 @@
 import { useUIStore } from '@/stores/uiStore'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
+import { useTranslation } from 'react-i18next'
+
+const LANGUAGES = [
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
+  { code: 'it', name: 'Italiano', flag: '🇮🇹' },
+]
 
 export function PreferencesSettings() {
   const { theme, toggleTheme } = useUIStore()
+  const { i18n } = useTranslation()
+  
+  const handleLanguageChange = (langCode: string) => {
+    i18n.changeLanguage(langCode)
+  }
 
   return (
     <Card>
@@ -40,17 +53,28 @@ export function PreferencesSettings() {
           </div>
         </div>
 
-        {/* Language (Coming Soon) */}
+        {/* Language */}
         <div className="space-y-4">
           <div>
-            <h3 className="font-medium mb-1">Langue</h3>
+            <h3 className="font-medium mb-1">Langue / Language</h3>
             <p className="text-sm text-muted-foreground">
-              La langue de l'interface (actuellement: Français)
+              Choisissez la langue de l'interface
             </p>
           </div>
-          <p className="text-sm text-muted-foreground italic">
-            Autres langues disponibles prochainement
-          </p>
+
+          <div className="grid grid-cols-2 gap-3">
+            {LANGUAGES.map((lang) => (
+              <Button
+                key={lang.code}
+                variant={i18n.language === lang.code ? 'primary' : 'secondary'}
+                onClick={() => handleLanguageChange(lang.code)}
+                className="flex items-center gap-2 justify-start"
+              >
+                <span className="text-xl">{lang.flag}</span>
+                {lang.name}
+              </Button>
+            ))}
+          </div>
         </div>
       </CardContent>
     </Card>

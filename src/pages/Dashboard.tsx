@@ -66,37 +66,43 @@ export function Dashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div className="rounded-lg border border-border bg-card p-6">
-        <h2 className="text-xl font-semibold mb-4">{t('dashboard.quickActions')}</h2>
+      <div className="rounded-xl border border-border/50 bg-card p-6 shadow-soft">
+        <h2 className="text-xl font-semibold mb-6">{t('dashboard.quickActions')}</h2>
         <div className="grid gap-4 md:grid-cols-3">
           <button
             onClick={() => navigate('/kanban')}
-            className="rounded-md border border-border p-4 text-left hover:bg-accent transition-colors"
+            className="group relative rounded-xl border-2 border-border/50 p-6 text-left bg-gradient-to-br from-background to-accent/20 hover:border-primary-300 hover:shadow-medium transition-all duration-200 hover:-translate-y-1"
           >
-            <div className="flex items-center gap-2 mb-2">
-              <Plus className="w-5 h-5 text-primary-500" />
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-lg group-hover:scale-110 transition-transform">
+                <Plus className="w-5 h-5 text-primary-600" />
+              </div>
+              <h3 className="font-semibold text-lg">{t('dashboard.newActivity')}</h3>
             </div>
-            <h3 className="font-medium">{t('dashboard.newActivity')}</h3>
             <p className="text-sm text-muted-foreground">{t('dashboard.newActivityDesc')}</p>
           </button>
           <button
             onClick={() => navigate('/invoices/new')}
-            className="rounded-md border border-border p-4 text-left hover:bg-accent transition-colors"
+            className="group relative rounded-xl border-2 border-border/50 p-6 text-left bg-gradient-to-br from-background to-accent/20 hover:border-success-400 hover:shadow-medium transition-all duration-200 hover:-translate-y-1"
           >
-            <div className="flex items-center gap-2 mb-2">
-              <FileText className="w-5 h-5 text-primary-500" />
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-gradient-to-br from-success-500/20 to-success-600/20 rounded-lg group-hover:scale-110 transition-transform">
+                <FileText className="w-5 h-5 text-success-600" />
+              </div>
+              <h3 className="font-semibold text-lg">{t('dashboard.newInvoice')}</h3>
             </div>
-            <h3 className="font-medium">{t('dashboard.newInvoice')}</h3>
             <p className="text-sm text-muted-foreground">{t('dashboard.newInvoiceDesc')}</p>
           </button>
           <button
             onClick={() => navigate('/clients')}
-            className="rounded-md border border-border p-4 text-left hover:bg-accent transition-colors"
+            className="group relative rounded-xl border-2 border-border/50 p-6 text-left bg-gradient-to-br from-background to-accent/20 hover:border-warning-400 hover:shadow-medium transition-all duration-200 hover:-translate-y-1"
           >
-            <div className="flex items-center gap-2 mb-2">
-              <Users className="w-5 h-5 text-primary-500" />
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-gradient-to-br from-warning-500/20 to-warning-600/20 rounded-lg group-hover:scale-110 transition-transform">
+                <Users className="w-5 h-5 text-warning-600" />
+              </div>
+              <h3 className="font-semibold text-lg">{t('dashboard.newClient')}</h3>
             </div>
-            <h3 className="font-medium">{t('dashboard.newClient')}</h3>
             <p className="text-sm text-muted-foreground">{t('dashboard.newClientDesc')}</p>
           </button>
         </div>

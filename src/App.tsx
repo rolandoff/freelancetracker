@@ -14,6 +14,8 @@ import { LegalSettings } from './pages/settings/LegalSettings'
 import { PreferencesSettings } from './pages/settings/PreferencesSettings'
 import { KanbanPage } from './features/activities/pages/KanbanPage'
 import { RatesSettings } from './pages/settings/RatesSettings'
+import { InvoicesPage } from './features/invoices/pages/InvoicesPage'
+import { InvoiceCreatePage } from './features/invoices/pages/InvoiceCreatePage'
 import { ROUTES } from './lib/constants'
 
 function App() {
@@ -49,10 +51,10 @@ function App() {
               {/* Activities */}
               <Route path={ROUTES.KANBAN} element={<KanbanPage />} />
 
-              {/* Placeholder routes - will implement later */}
-              <Route path={ROUTES.INVOICES} element={<PlaceholderPage title="Factures" />} />
-              <Route path={ROUTES.URSSAF} element={<PlaceholderPage title="URSSAF" />} />
-              <Route path={ROUTES.REPORTS} element={<PlaceholderPage title="Rapports" />} />
+              {/* Invoices */}
+              <Route path={ROUTES.INVOICES} element={<InvoicesPage />} />
+              <Route path="/invoices/new" element={<InvoiceCreatePage />} />
+              <Route path="/invoices/:id" element={<PlaceholderPage title="Détail Facture" />} />
             </Route>
 
             {/* 404 */}

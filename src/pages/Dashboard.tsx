@@ -68,7 +68,7 @@ export function Dashboard() {
         <h2 className="text-xl font-semibold mb-4">Actions Rapides</h2>
         <div className="grid gap-4 md:grid-cols-3">
           <button
-            onClick={() => navigate('/activities')}
+            onClick={() => navigate('/kanban')}
             className="rounded-md border border-border p-4 text-left hover:bg-accent transition-colors"
           >
             <div className="flex items-center gap-2 mb-2">

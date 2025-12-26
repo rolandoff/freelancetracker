@@ -5,7 +5,9 @@ import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableHeader, TableHead, TableBody, TableRow, TableCell } from '@/components/ui/Table'
 import { TableSkeleton } from '@/components/ui/Skeleton'
+import { EmptyState } from '@/components/ui/EmptyState'
 import { motion } from 'framer-motion'
+import { FileText } from 'lucide-react'
 import { useInvoices, useUpdateInvoiceStatus, useDeleteInvoice } from '../hooks/useInvoices'
 import { formatCurrency } from '@/utils/format'
 import { format } from 'date-fns'
@@ -110,11 +112,13 @@ export function InvoicesPage() {
 
       {/* Table */}
       {!filteredInvoices || filteredInvoices.length === 0 ? (
-        <div className="rounded-lg border border-border bg-card p-8 text-center">
-          <p className="text-muted-foreground">
-            Aucune facture trouvée. Créez votre première facture pour commencer.
-          </p>
-        </div>
+        <EmptyState
+          icon={FileText}
+          title={statusFilter === 'all' ? 'Aucune facture' : 'Aucune facture avec ce statut'}
+          description={statusFilter === 'all' ? 'Créez votre première facture pour commencer à facturer vos clients.' : 'Essayez un autre filtre ou créez une nouvelle facture.'}
+          actionLabel={statusFilter === 'all' ? 'Nouvelle Facture' : undefined}
+          onAction={statusFilter === 'all' ? () => navigate('/invoices/new') : undefined}
+        />
       ) : (
         <div className="rounded-lg border border-border bg-card">
           <Table>

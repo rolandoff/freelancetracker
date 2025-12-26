@@ -9,7 +9,9 @@ import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Table, TableHeader, TableHead, TableBody, TableRow, TableCell } from '@/components/ui/Table'
 import { TableSkeleton } from '@/components/ui/Skeleton'
+import { EmptyState } from '@/components/ui/EmptyState'
 import { motion } from 'framer-motion'
+import { Users } from 'lucide-react'
 import { validateEmail, validateSIRET } from '@/utils/validation'
 import { formatSIRET } from '@/utils/format'
 import { useTranslation } from 'react-i18next'
@@ -288,13 +290,13 @@ export function Clients() {
 
       {/* Table */}
       {!clients || clients.length === 0 ? (
-        <div className="rounded-lg border border-border bg-card p-8 text-center">
-          <p className="text-muted-foreground">
-            {showInactive
-              ? 'Aucun client trouvé'
-              : 'Aucun client actif. Créez votre premier client pour commencer.'}
-          </p>
-        </div>
+        <EmptyState
+          icon={Users}
+          title={showInactive ? t('clients.noClientsFound') : t('clients.noActiveClients')}
+          description={showInactive ? t('clients.tryDifferentFilters') : t('clients.createFirstClient')}
+          actionLabel={!showInactive ? t('clients.newClient') : undefined}
+          onAction={!showInactive ? openCreateModal : undefined}
+        />
       ) : (
         <div className="rounded-lg border border-border bg-card">
           <Table>

@@ -9,8 +9,9 @@ import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Table, TableHeader, TableHead, TableBody, TableRow, TableCell } from '@/components/ui/Table'
 import { TableSkeleton } from '@/components/ui/Skeleton'
+import { EmptyState } from '@/components/ui/EmptyState'
 import { motion } from 'framer-motion'
-import { Plus, Edit2, Trash2, Archive, Filter } from 'lucide-react'
+import { Plus, Edit2, Trash2, Archive, Filter, Folder } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { Project, Client, Database } from '@/types/database.types'
 
@@ -322,13 +323,13 @@ export function Projects() {
 
       {/* Table */}
       {!projects || projects.length === 0 ? (
-        <div className="rounded-lg border border-border bg-card p-8 text-center">
-          <p className="text-muted-foreground">
-            {showArchived || selectedClient
-              ? t('projects.noProjectsFound')
-              : t('projects.noActiveProjects')}
-          </p>
-        </div>
+        <EmptyState
+          icon={Folder}
+          title={showArchived || selectedClient ? t('projects.noProjectsFound') : t('projects.noActiveProjects')}
+          description={showArchived || selectedClient ? t('projects.tryDifferentFilters') : t('projects.createFirstProject')}
+          actionLabel={!showArchived && !selectedClient ? t('projects.newProject') : undefined}
+          onAction={!showArchived && !selectedClient ? openCreateModal : undefined}
+        />
       ) : (
         <div className="rounded-lg border border-border bg-card">
           <Table>

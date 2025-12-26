@@ -3,19 +3,21 @@ import { useUIStore } from '@/stores/uiStore'
 import { ROUTES } from '@/lib/constants'
 import { clsx } from 'clsx'
 import { TimeTracker } from '@/features/activities/components/TimeTracker'
+import { useTranslation } from 'react-i18next'
 
 const navigation = [
-  { name: 'Dashboard', href: ROUTES.DASHBOARD, icon: 'LayoutDashboard' },
-  { name: 'Kanban', href: ROUTES.KANBAN, icon: 'Kanban' },
-  { name: 'Clients', href: ROUTES.CLIENTS, icon: 'Users' },
-  { name: 'Projets', href: ROUTES.PROJECTS, icon: 'Folder' },
-  { name: 'Factures', href: ROUTES.INVOICES, icon: 'FileText' },
-  { name: 'URSSAF', href: ROUTES.URSSAF, icon: 'PiggyBank' },
-  { name: 'Rapports', href: ROUTES.REPORTS, icon: 'BarChart3' },
-  { name: 'Paramètres', href: ROUTES.SETTINGS, icon: 'Settings' },
+  { nameKey: 'sidebar.dashboard', href: ROUTES.DASHBOARD, icon: 'LayoutDashboard' },
+  { nameKey: 'sidebar.kanban', href: ROUTES.KANBAN, icon: 'Kanban' },
+  { nameKey: 'sidebar.clients', href: ROUTES.CLIENTS, icon: 'Users' },
+  { nameKey: 'sidebar.projects', href: ROUTES.PROJECTS, icon: 'Folder' },
+  { nameKey: 'sidebar.invoices', href: ROUTES.INVOICES, icon: 'FileText' },
+  { nameKey: 'sidebar.urssaf', href: ROUTES.URSSAF, icon: 'PiggyBank' },
+  { nameKey: 'sidebar.reports', href: ROUTES.REPORTS, icon: 'BarChart3' },
+  { nameKey: 'sidebar.settings', href: ROUTES.SETTINGS, icon: 'Settings' },
 ]
 
 export function Sidebar() {
+  const { t } = useTranslation()
   const sidebarOpen = useUIStore((state) => state.sidebarOpen)
 
   return (
@@ -41,7 +43,7 @@ export function Sidebar() {
         <nav className="flex-1 space-y-1 p-4 overflow-y-auto">
           {navigation.map((item) => (
             <NavLink
-              key={item.name}
+              key={item.nameKey}
               to={item.href}
               className={({ isActive }) =>
                 clsx(
@@ -56,7 +58,7 @@ export function Sidebar() {
                 {/* Icon placeholder - will add lucide-react icons later */}
                 📊
               </span>
-              {sidebarOpen && <span>{item.name}</span>}
+              {sidebarOpen && <span>{t(item.nameKey)}</span>}
             </NavLink>
           ))}
         </nav>
@@ -90,7 +92,7 @@ export function Sidebar() {
         <nav className="flex-1 space-y-1 p-4">
           {navigation.map((item) => (
             <NavLink
-              key={item.name}
+              key={item.nameKey}
               to={item.href}
               className={({ isActive }) =>
                 clsx(
@@ -103,7 +105,7 @@ export function Sidebar() {
               onClick={() => useUIStore.getState().setSidebarOpen(false)}
             >
               <span className="h-5 w-5">📊</span>
-              <span>{item.name}</span>
+              <span>{t(item.nameKey)}</span>
             </NavLink>
           ))}
         </nav>

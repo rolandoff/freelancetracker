@@ -160,6 +160,16 @@
     "newClient": "Nuevo Cliente",
     "newClientDesc": "Añadir un cliente"
   },
+  "sidebar": {
+    "dashboard": "Panel de Control",
+    "kanban": "Kanban",
+    "clients": "Clientes",
+    "projects": "Proyectos",
+    "invoices": "Facturas",
+    "urssaf": "URSSAF",
+    "reports": "Informes",
+    "settings": "Configuración"
+  },
   "settings": {
     "title": "Configuración",
     "profile": "Perfil",

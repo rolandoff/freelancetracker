@@ -34,8 +34,8 @@ export function ForgotPassword() {
       if (error) throw error
 
       setSuccess(true)
-    } catch (error: any) {
-      setError(error.message || 'Une erreur est survenue')
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Une erreur est survenue')
     } finally {
       setLoading(false)
     }

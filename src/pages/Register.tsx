@@ -82,8 +82,8 @@ export function Register() {
         alert('Inscription réussie! Vérifiez votre email pour confirmer votre compte.')
         navigate(ROUTES.LOGIN)
       }
-    } catch (error: any) {
-      setErrors({ submit: error.message || 'Une erreur est survenue' })
+    } catch (error) {
+      setErrors({ submit: error instanceof Error ? error.message : 'Une erreur est survenue' })
     } finally {
       setLoading(false)
     }

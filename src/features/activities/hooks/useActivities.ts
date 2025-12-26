@@ -49,7 +49,7 @@ export const useCreateActivity = () => {
 
       const { data, error} = await supabase
         .from('activities')
-        // @ts-ignore - Supabase type inference issue
+        // @ts-expect-error - Supabase type inference issue
         .insert({
           ...activity,
           user_id: user.id,
@@ -79,7 +79,7 @@ export const useUpdateActivity = () => {
     }) => {
       const { data, error } = await supabase
         .from('activities')
-        // @ts-ignore - Supabase type inference issue
+        // @ts-expect-error - Supabase type inference issue
         .update(updates as Database['public']['Tables']['activities']['Update'])
         .eq('id', id)
         .select()
@@ -116,7 +116,7 @@ export const useUpdateActivityStatus = () => {
 
       const { data, error } = await supabase
         .from('activities')
-        // @ts-ignore - Supabase type inference issue
+        // @ts-expect-error - Supabase type inference issue
         .update(updates as Database['public']['Tables']['activities']['Update'])
         .eq('id', id)
         .select()

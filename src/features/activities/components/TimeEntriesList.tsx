@@ -32,8 +32,8 @@ export function TimeEntriesList({ activityId }: TimeEntriesListProps) {
     try {
       await deleteMutation.mutateAsync({ id: entry.id, activityId })
       success('Entrée supprimée', 'L\'entrée de temps a été supprimée')
-    } catch (err: any) {
-      showError('Erreur', err.message || 'Impossible de supprimer l\'entrée')
+    } catch (err) {
+      showError('Erreur', err instanceof Error ? err.message : 'Impossible de supprimer l\'entrée')
     }
   }
 

@@ -101,7 +101,7 @@ export function Clients() {
       success('Client créé', 'Le client a été ajouté avec succès')
       closeModal()
     },
-    onError: (err: any) => {
+    onError: (err: Error) => {
       error('Erreur', err.message || 'Impossible de créer le client')
     },
   })
@@ -133,7 +133,7 @@ export function Clients() {
       success('Client modifié', 'Les modifications ont été enregistrées')
       closeModal()
     },
-    onError: (err: any) => {
+    onError: (err: Error) => {
       error('Erreur', err.message || 'Impossible de modifier le client')
     },
   })
@@ -153,7 +153,7 @@ export function Clients() {
       queryClient.invalidateQueries({ queryKey: ['clients'] })
       success('Statut modifié', 'Le statut du client a été mis à jour')
     },
-    onError: (err: any) => {
+    onError: (err: Error) => {
       error('Erreur', err.message || 'Impossible de modifier le statut')
     },
   })

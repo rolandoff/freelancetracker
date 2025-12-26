@@ -2,6 +2,39 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@/test/testUtils'
 import userEvent from '@testing-library/user-event'
 import { RatesTable } from './RatesTable'
+import type { UseQueryResult } from '@tanstack/react-query'
+import type { Rate } from '@/types/database.types'
+
+// Helper to create a complete mock UseQueryResult
+const createMockQueryResult = (
+  data: Rate[] | undefined,
+  isLoading: boolean
+): UseQueryResult<Rate[], Error> => ({
+  data,
+  isLoading,
+  isSuccess: !isLoading && data !== undefined,
+  isError: false,
+  error: null,
+  status: isLoading ? 'pending' : 'success',
+  fetchStatus: 'idle',
+  isPending: isLoading,
+  isRefetching: false,
+  isLoadingError: false,
+  isRefetchError: false,
+  dataUpdatedAt: 0,
+  errorUpdatedAt: 0,
+  failureCount: 0,
+  failureReason: null,
+  errorUpdateCount: 0,
+  isFetched: !isLoading,
+  isFetchedAfterMount: !isLoading,
+  isFetching: false,
+  isPlaceholderData: false,
+  isStale: false,
+  refetch: vi.fn(),
+  // @ts-expect-error - Partial mock
+  promise: Promise.resolve(data),
+})
 
 const mockRates = [
   {
@@ -28,15 +61,25 @@ const mockRates = [
   },
 ]
 
-const mockDeleteRate = vi.fn()
+const { mockDeleteRate, mockUseRates, mockCreateRate, mockUpdateRate } = vi.hoisted(() => ({
+  mockDeleteRate: vi.fn(),
+  mockUseRates: vi.fn(),
+  mockCreateRate: vi.fn(),
+  mockUpdateRate: vi.fn(),
+}))
 
 vi.mock('../hooks/useRates', () => ({
-  useRates: vi.fn(() => ({
-    data: mockRates,
-    isLoading: false,
-  })),
+  useRates: mockUseRates,
   useDeleteRate: () => ({
     mutateAsync: mockDeleteRate,
+  }),
+  useCreateRate: () => ({
+    mutateAsync: mockCreateRate,
+    isPending: false,
+  }),
+  useUpdateRate: () => ({
+    mutateAsync: mockUpdateRate,
+    isPending: false,
   }),
 }))
 
@@ -46,14 +89,12 @@ global.confirm = vi.fn(() => true)
 describe('RatesTable', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    // Set default mock return value
+    mockUseRates.mockReturnValue(createMockQueryResult(mockRates, false))
   })
 
   it('renders loading state', () => {
-    const { useRates } = require('../hooks/useRates')
-    useRates.mockReturnValue({
-      data: undefined,
-      isLoading: true,
-    })
+    mockUseRates.mockReturnValue(createMockQueryResult(undefined, true))
 
     render(<RatesTable />)
     expect(screen.getByText('Cargando tarifas...')).toBeInTheDocument()
@@ -112,22 +153,14 @@ describe('RatesTable', () => {
       },
     ]
 
-    const { useRates } = require('../hooks/useRates')
-    useRates.mockReturnValue({
-      data: clientRates,
-      isLoading: false,
-    })
+    mockUseRates.mockReturnValue(createMockQueryResult(clientRates, false))
 
     render(<RatesTable clientId="client-1" clientName="Test Client" />)
     expect(screen.getByText('Programación')).toBeInTheDocument()
   })
 
   it('shows empty state when no rates exist', () => {
-    const { useRates } = require('../hooks/useRates')
-    useRates.mockReturnValue({
-      data: [],
-      isLoading: false,
-    })
+    mockUseRates.mockReturnValue(createMockQueryResult([], false))
 
     render(<RatesTable />)
     expect(screen.getByText('No hay tarifas configuradas')).toBeInTheDocument()
@@ -136,12 +169,19 @@ describe('RatesTable', () => {
   it('calls delete mutation when delete button is clicked and confirmed', async () => {
     const user = userEvent.setup()
     mockDeleteRate.mockResolvedValue({})
-    
+
     render(<RatesTable />)
-    
-    const deleteButtons = screen.getAllByTitle(/delete/i)
-    await user.click(deleteButtons[0])
-    
+
+    // Get all buttons and find the ones with trash icons (delete buttons)
+    const allButtons = screen.getAllByRole('button')
+    const deleteButton = allButtons.find(btn => {
+      const svg = btn.querySelector('svg')
+      return svg?.classList.contains('lucide-trash2')
+    })
+
+    expect(deleteButton).toBeDefined()
+    await user.click(deleteButton!)
+
     await waitFor(() => {
       expect(global.confirm).toHaveBeenCalledWith('¿Eliminar esta tarifa?')
       expect(mockDeleteRate).toHaveBeenCalledWith('rate-1')
@@ -151,28 +191,41 @@ describe('RatesTable', () => {
   it('does not call delete when user cancels confirmation', async () => {
     const user = userEvent.setup()
     vi.mocked(global.confirm).mockReturnValue(false)
-    
+
     render(<RatesTable />)
-    
-    const deleteButtons = screen.getAllByTitle(/delete/i)
-    await user.click(deleteButtons[0])
-    
+
+    // Get all buttons and find the ones with trash icons (delete buttons)
+    const allButtons = screen.getAllByRole('button')
+    const deleteButton = allButtons.find(btn => {
+      const svg = btn.querySelector('svg')
+      return svg?.classList.contains('lucide-trash2')
+    })
+
+    expect(deleteButton).toBeDefined()
+    await user.click(deleteButton!)
+
     expect(mockDeleteRate).not.toHaveBeenCalled()
   })
 
   it('opens edit form when edit button is clicked', async () => {
     const user = userEvent.setup()
+    mockUpdateRate.mockResolvedValue({})
+
     render(<RatesTable />)
-    
-    const editButtons = screen.getAllByRole('button')
-    const editButton = editButtons.find(btn => btn.querySelector('svg'))
-    
-    if (editButton) {
-      await user.click(editButton)
-      
-      await waitFor(() => {
-        expect(screen.getByText('Editar Tarifa')).toBeInTheDocument()
-      })
-    }
+
+    // Get all buttons and find the ones with pencil icons (edit buttons)
+    const allButtons = screen.getAllByRole('button')
+    const editButton = allButtons.find(btn => {
+      const svg = btn.querySelector('svg')
+      return svg?.classList.contains('lucide-pencil')
+    })
+
+    expect(editButton).toBeDefined()
+    await user.click(editButton!)
+
+    // The form should open - look for form title (just "Editar Tarifa" when editing existing rate)
+    await waitFor(() => {
+      expect(screen.getByText('Editar Tarifa')).toBeInTheDocument()
+    })
   })
 })

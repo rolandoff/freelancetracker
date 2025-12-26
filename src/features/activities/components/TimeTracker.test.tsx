@@ -3,10 +3,14 @@ import { render, screen, waitFor } from '@/test/testUtils'
 import userEvent from '@testing-library/user-event'
 import { TimeTracker } from './TimeTracker'
 
-const mockCreateTimeEntry = vi.fn()
-const mockStopTimer = vi.fn()
-const mockPauseTimer = vi.fn()
-const mockResumeTimer = vi.fn()
+const { mockCreateTimeEntry, mockStopTimer, mockPauseTimer, mockResumeTimer, mockUseTimerStore } =
+  vi.hoisted(() => ({
+    mockCreateTimeEntry: vi.fn(),
+    mockStopTimer: vi.fn(),
+    mockPauseTimer: vi.fn(),
+    mockResumeTimer: vi.fn(),
+    mockUseTimerStore: vi.fn(),
+  }))
 
 vi.mock('../hooks/useTimeEntries', () => ({
   useCreateTimeEntry: () => ({
@@ -26,7 +30,7 @@ vi.mock('../hooks/useActivities', () => ({
 }))
 
 vi.mock('@/stores/timerStore', () => ({
-  useTimerStore: vi.fn(),
+  useTimerStore: mockUseTimerStore,
 }))
 
 describe('TimeTracker', () => {
@@ -35,8 +39,7 @@ describe('TimeTracker', () => {
   })
 
   it('shows no timer message when no activity is active', () => {
-    const { useTimerStore } = require('@/stores/timerStore')
-    useTimerStore.mockReturnValue({
+    mockUseTimerStore.mockReturnValue({
       activityId: null,
       startTime: null,
       elapsedSeconds: 0,
@@ -51,8 +54,7 @@ describe('TimeTracker', () => {
   })
 
   it('displays timer with activity title when timer is running', () => {
-    const { useTimerStore } = require('@/stores/timerStore')
-    useTimerStore.mockReturnValue({
+    mockUseTimerStore.mockReturnValue({
       activityId: 'activity-1',
       startTime: new Date(),
       elapsedSeconds: 125,
@@ -68,8 +70,7 @@ describe('TimeTracker', () => {
   })
 
   it('formats time correctly for hours, minutes, and seconds', () => {
-    const { useTimerStore } = require('@/stores/timerStore')
-    useTimerStore.mockReturnValue({
+    mockUseTimerStore.mockReturnValue({
       activityId: 'activity-1',
       startTime: new Date(),
       elapsedSeconds: 3665,
@@ -84,8 +85,7 @@ describe('TimeTracker', () => {
   })
 
   it('shows pause button when timer is running', () => {
-    const { useTimerStore } = require('@/stores/timerStore')
-    useTimerStore.mockReturnValue({
+    mockUseTimerStore.mockReturnValue({
       activityId: 'activity-1',
       startTime: new Date(),
       elapsedSeconds: 60,
@@ -100,8 +100,7 @@ describe('TimeTracker', () => {
   })
 
   it('shows resume button when timer is paused', () => {
-    const { useTimerStore } = require('@/stores/timerStore')
-    useTimerStore.mockReturnValue({
+    mockUseTimerStore.mockReturnValue({
       activityId: 'activity-1',
       startTime: new Date(),
       elapsedSeconds: 60,
@@ -117,8 +116,7 @@ describe('TimeTracker', () => {
 
   it('calls pauseTimer when pause button is clicked', async () => {
     const user = userEvent.setup()
-    const { useTimerStore } = require('@/stores/timerStore')
-    useTimerStore.mockReturnValue({
+    mockUseTimerStore.mockReturnValue({
       activityId: 'activity-1',
       startTime: new Date(),
       elapsedSeconds: 60,
@@ -135,8 +133,7 @@ describe('TimeTracker', () => {
 
   it('calls resumeTimer when resume button is clicked', async () => {
     const user = userEvent.setup()
-    const { useTimerStore } = require('@/stores/timerStore')
-    useTimerStore.mockReturnValue({
+    mockUseTimerStore.mockReturnValue({
       activityId: 'activity-1',
       startTime: new Date(),
       elapsedSeconds: 60,
@@ -154,11 +151,10 @@ describe('TimeTracker', () => {
   it('saves time entry and stops timer when stop button is clicked', async () => {
     const user = userEvent.setup()
     const startTime = new Date('2024-01-01T10:00:00Z')
-    const { useTimerStore } = require('@/stores/timerStore')
-    
+
     mockCreateTimeEntry.mockResolvedValue({})
-    
-    useTimerStore.mockReturnValue({
+
+    mockUseTimerStore.mockReturnValue({
       activityId: 'activity-1',
       startTime,
       elapsedSeconds: 60,
@@ -184,13 +180,12 @@ describe('TimeTracker', () => {
 
   it('shows saving state when stopping timer', async () => {
     const user = userEvent.setup()
-    const { useTimerStore } = require('@/stores/timerStore')
-    
+
     mockCreateTimeEntry.mockImplementation(
       () => new Promise((resolve) => setTimeout(resolve, 100))
     )
-    
-    useTimerStore.mockReturnValue({
+
+    mockUseTimerStore.mockReturnValue({
       activityId: 'activity-1',
       startTime: new Date(),
       elapsedSeconds: 60,
@@ -202,7 +197,7 @@ describe('TimeTracker', () => {
 
     render(<TimeTracker />)
     await user.click(screen.getByText('Detener'))
-    
+
     expect(screen.getByText('Guardando...')).toBeInTheDocument()
   })
 })

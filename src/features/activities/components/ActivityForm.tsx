@@ -84,7 +84,7 @@ export function ActivityForm({ activity, onClose }: ActivityFormProps) {
 
   // Filter projects by selected client
   const filteredProjects = selectedClientId
-    ? projects?.filter((p: any) => p.client_id === selectedClientId)
+    ? projects?.filter((p) => p.client_id === selectedClientId)
     : []
 
   const onSubmit = async (data: ActivityFormData) => {
@@ -160,7 +160,7 @@ export function ActivityForm({ activity, onClose }: ActivityFormProps) {
                 className="w-full px-3 py-2 border rounded-md"
               >
                 <option value="">Seleccionar cliente</option>
-                {clients?.map((client: any) => (
+                {clients?.map((client) => (
                   <option key={client.id} value={client.id}>
                     {client.name}
                   </option>
@@ -180,7 +180,7 @@ export function ActivityForm({ activity, onClose }: ActivityFormProps) {
                 disabled={!selectedClientId}
               >
                 <option value="">Seleccionar proyecto</option>
-                {filteredProjects?.map((project: any) => (
+                {filteredProjects?.map((project) => (
                   <option key={project.id} value={project.id}>
                     {project.name}
                   </option>

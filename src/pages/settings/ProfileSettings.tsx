@@ -96,8 +96,8 @@ export function ProfileSettings() {
       if (updateError) throw updateError
 
       success('Profil mis à jour', 'Vos informations ont été enregistrées avec succès')
-    } catch (err: any) {
-      error('Erreur', err.message || 'Impossible de mettre à jour le profil')
+    } catch (err) {
+      error('Erreur', err instanceof Error ? err.message : 'Impossible de mettre à jour le profil')
     } finally {
       setLoading(false)
     }

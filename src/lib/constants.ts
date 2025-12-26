@@ -84,7 +84,7 @@ export const CURRENCY = {
 export const VALIDATION = {
   SIRET: /^\d{14}$/,
   EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  PHONE: /^[\d\s\-\+\(\)]+$/,
+  PHONE: /^[\d\s+()-]+$/,
   HEX_COLOR: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
 }
 

@@ -66,7 +66,7 @@ export const useCreateRate = () => {
 
       const { data, error } = await supabase
         .from('rates')
-        // @ts-ignore - Supabase type inference issue
+        // @ts-expect-error - Supabase type inference issue
         .insert({
           ...rate,
           user_id: user.id,
@@ -90,7 +90,7 @@ export const useUpdateRate = () => {
     mutationFn: async ({ id, updates }: { id: string; updates: Partial<Rate> }) => {
       const { data, error } = await supabase
         .from('rates')
-        // @ts-ignore - Supabase type inference issue
+        // @ts-expect-error - Supabase type inference issue
         .update(updates as Database['public']['Tables']['rates']['Update'])
         .eq('id', id)
         .select()

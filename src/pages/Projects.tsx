@@ -122,7 +122,7 @@ export function Projects() {
       success('Projet créé', 'Le projet a été ajouté avec succès')
       closeModal()
     },
-    onError: (err: any) => {
+    onError: (err: Error) => {
       error('Erreur', err.message || 'Impossible de créer le projet')
     },
   })
@@ -132,7 +132,7 @@ export function Projects() {
     mutationFn: async ({ id, data }: { id: string; data: ProjectFormData }) => {
       const { error } = await supabase
         .from('projects')
-        // @ts-ignore - Supabase type inference issue
+        // @ts-expect-error - Supabase type inference issue
         .update({
           client_id: data.client_id,
           name: data.name,
@@ -148,7 +148,7 @@ export function Projects() {
       success('Projet modifié', 'Les modifications ont été enregistrées')
       closeModal()
     },
-    onError: (err: any) => {
+    onError: (err: Error) => {
       error('Erreur', err.message || 'Impossible de modifier le projet')
     },
   })
@@ -158,7 +158,7 @@ export function Projects() {
     mutationFn: async ({ id, is_archived }: { id: string; is_archived: boolean }) => {
       const { error } = await supabase
         .from('projects')
-        // @ts-ignore - Supabase type inference issue
+        // @ts-expect-error - Supabase type inference issue
         .update({ is_archived: !is_archived } as Database['public']['Tables']['projects']['Update'])
         .eq('id', id)
 
@@ -168,7 +168,7 @@ export function Projects() {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
       success('Statut modifié', 'Le statut du projet a été mis à jour')
     },
-    onError: (err: any) => {
+    onError: (err: Error) => {
       error('Erreur', err.message || 'Impossible de modifier le statut')
     },
   })

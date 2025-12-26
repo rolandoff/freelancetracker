@@ -83,8 +83,8 @@ export function TimeEntryForm({ activityId, editingEntry, onSuccess, onCancel }:
       })
 
       onSuccess?.()
-    } catch (err: any) {
-      showError('Erreur', err.message || 'Impossible de sauvegarder l\'entrée')
+    } catch (err) {
+      showError('Erreur', err instanceof Error ? err.message : 'Impossible de sauvegarder l\'entrée')
     }
   }
 

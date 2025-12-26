@@ -60,8 +60,8 @@ export function Login() {
       if (data.user) {
         navigate(ROUTES.DASHBOARD)
       }
-    } catch (error: any) {
-      setErrors({ submit: error.message || 'Email ou mot de passe incorrect' })
+    } catch (error) {
+      setErrors({ submit: error instanceof Error ? error.message : 'Email ou mot de passe incorrect' })
     } finally {
       setLoading(false)
     }

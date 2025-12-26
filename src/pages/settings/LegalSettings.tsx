@@ -76,8 +76,8 @@ export function LegalSettings() {
       if (updateError) throw updateError
 
       success('Paramètres mis à jour', 'Vos paramètres fiscaux ont été enregistrés')
-    } catch (err: any) {
-      error('Erreur', err.message || 'Impossible de mettre à jour les paramètres')
+    } catch (err) {
+      error('Erreur', err instanceof Error ? err.message : 'Impossible de mettre à jour les paramètres')
     } finally {
       setLoading(false)
     }

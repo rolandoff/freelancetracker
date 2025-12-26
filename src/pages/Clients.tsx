@@ -8,6 +8,8 @@ import { Modal } from '@/components/ui/Modal'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Table, TableHeader, TableHead, TableBody, TableRow, TableCell } from '@/components/ui/Table'
+import { TableSkeleton } from '@/components/ui/Skeleton'
+import { motion } from 'framer-motion'
 import { validateEmail, validateSIRET } from '@/utils/validation'
 import { formatSIRET } from '@/utils/format'
 import { useTranslation } from 'react-i18next'
@@ -238,14 +240,30 @@ export function Clients() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-500 border-t-transparent" />
-      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="space-y-6"
+      >
+        <div className="flex items-center justify-between">
+          <div className="space-y-2">
+            <div className="h-9 w-48 bg-muted rounded-lg animate-pulse" />
+            <div className="h-5 w-64 bg-muted rounded animate-pulse" />
+          </div>
+          <div className="h-11 w-32 bg-muted rounded-lg animate-pulse" />
+        </div>
+        <TableSkeleton rows={8} />
+      </motion.div>
     )
   }
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="space-y-6"
+    >
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -484,6 +502,6 @@ export function Clients() {
           </div>
         </form>
       </Modal>
-    </div>
+    </motion.div>
   )
 }

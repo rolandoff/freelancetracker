@@ -8,6 +8,9 @@ import { Modal } from '@/components/ui/Modal'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Table, TableHeader, TableHead, TableBody, TableRow, TableCell } from '@/components/ui/Table'
+import { TableSkeleton } from '@/components/ui/Skeleton'
+import { motion } from 'framer-motion'
+import { Plus, Edit2, Trash2, Archive, Filter } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { Project, Client, Database } from '@/types/database.types'
 
@@ -242,14 +245,30 @@ export function Projects() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-500 border-t-transparent" />
-      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="space-y-6"
+      >
+        <div className="flex items-center justify-between">
+          <div className="space-y-2">
+            <div className="h-9 w-48 bg-muted rounded-lg animate-pulse" />
+            <div className="h-5 w-64 bg-muted rounded animate-pulse" />
+          </div>
+          <div className="h-11 w-40 bg-muted rounded-lg animate-pulse" />
+        </div>
+        <TableSkeleton rows={8} />
+      </motion.div>
     )
   }
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="space-y-6"
+    >
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -257,6 +276,7 @@ export function Projects() {
           <p className="text-muted-foreground">{t('projects.subtitle')}</p>
         </div>
         <Button onClick={openCreateModal} disabled={!clients || clients.length === 0}>
+          <Plus className="h-4 w-4 mr-2" />
           {t('projects.newProject')}
         </Button>
       </div>
@@ -273,11 +293,12 @@ export function Projects() {
       {/* Filters */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
+          <Filter className="h-4 w-4 text-muted-foreground" />
           <label className="text-sm font-medium">{t('projects.client')}:</label>
           <select
             value={selectedClient}
             onChange={(e) => setSelectedClient(e.target.value)}
-            className="px-3 py-2 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="px-3 py-2 rounded-lg border-2 border-border bg-background text-foreground focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/20 transition-all"
           >
             <option value="">{t('projects.allClients')}</option>
             {clients?.map((client) => (
@@ -353,14 +374,14 @@ export function Projects() {
                         size="sm"
                         onClick={() => openEditModal(project)}
                       >
-                        {t('projects.edit')}
+                        <Edit2 className="h-4 w-4" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => handleToggleArchive(project)}
                       >
-                        {project.is_archived ? t('projects.unarchive') : t('projects.archive')}
+                        <Archive className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
@@ -487,6 +508,6 @@ export function Projects() {
           </div>
         </form>
       </Modal>
-    </div>
+    </motion.div>
   )
 }

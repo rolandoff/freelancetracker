@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/hooks/useToast'
 import { supabase } from '@/lib/supabase'
@@ -21,12 +21,11 @@ export function LegalSettings() {
     plafond_ca_annuel: FRENCH_LEGAL.PLAFOND_CA,
   })
 
-  useEffect(() => {
-    loadUserSettings()
-  }, [user])
-
-  const loadUserSettings = async () => {
-    if (!user) return
+  const loadUserSettings = useCallback(async () => {
+    if (!user) {
+      setLoadingData(false)
+      return
+    }
 
     try {
       const { data, error: fetchError } = await supabase
@@ -45,7 +44,11 @@ export function LegalSettings() {
     } finally {
       setLoadingData(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    loadUserSettings()
+  }, [loadUserSettings])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target

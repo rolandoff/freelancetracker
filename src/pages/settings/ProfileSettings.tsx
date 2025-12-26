@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/hooks/useToast'
 import { supabase } from '@/lib/supabase'
@@ -24,12 +24,11 @@ export function ProfileSettings() {
     country: 'FR',
   })
 
-  useEffect(() => {
-    loadUserSettings()
-  }, [user])
-
-  const loadUserSettings = async () => {
-    if (!user) return
+  const loadUserSettings = useCallback(async () => {
+    if (!user) {
+      setLoadingData(false)
+      return
+    }
 
     try {
       const { data, error: fetchError } = await supabase
@@ -48,7 +47,11 @@ export function ProfileSettings() {
     } finally {
       setLoadingData(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    loadUserSettings()
+  }, [loadUserSettings])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target

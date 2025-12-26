@@ -7,7 +7,10 @@ import { ACTIVITY_STATUSES, SERVICE_TYPES } from '@/lib/constants'
 import { useActivityTotalHours } from '../hooks/useTimeEntries'
 import type { ActivityWithRelations } from '../hooks/useActivities'
 import { useTimerStore } from '@/stores/timerStore'
-import { Clock, DollarSign, Calendar, User, Briefcase, FileText, Play } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { supabase } from '@/lib/supabase'
+import { useNavigate } from 'react-router-dom'
+import { Clock, DollarSign, Calendar, User, Briefcase, FileText, Play, Receipt } from 'lucide-react'
 
 interface ActivityDetailModalProps {
   activity: ActivityWithRelations | null
@@ -16,9 +19,29 @@ interface ActivityDetailModalProps {
 }
 
 export function ActivityDetailModal({ activity, onClose, onEdit }: ActivityDetailModalProps) {
+  const navigate = useNavigate()
   const { data: totalHours } = useActivityTotalHours(activity?.id || null)
   const startTimer = useTimerStore((state) => state.startTimer)
   const currentTimerActivityId = useTimerStore((state) => state.activityId)
+  
+  // Query for linked invoice if activity is invoiced
+  const { data: linkedInvoice } = useQuery({
+    queryKey: ['activity-invoice', activity?.id],
+    queryFn: async () => {
+      if (!activity?.id || activity.status !== 'facturada') return null
+      
+      const { data, error } = await supabase
+        .from('invoice_items')
+        .select('invoice:invoices(id, invoice_number, status)')
+        .eq('activity_id', activity.id)
+        .limit(1)
+        .single()
+      
+      if (error) return null
+      return data?.invoice || null
+    },
+    enabled: !!activity?.id && activity.status === 'facturada',
+  })
 
   if (!activity) return null
 
@@ -149,6 +172,25 @@ export function ActivityDetailModal({ activity, onClose, onEdit }: ActivityDetai
                 <span>Temps réel</span>
               </div>
               <p className="font-medium">{formatHours(totalHours * 60)}</p>
+            </div>
+          )}
+          
+          {/* Linked Invoice */}
+          {linkedInvoice && (
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Receipt className="w-4 h-4" />
+                <span>Facture</span>
+              </div>
+              <button
+                onClick={() => {
+                  onClose()
+                  navigate(`/invoices/${(linkedInvoice as any).id}`)
+                }}
+                className="font-medium text-primary hover:underline text-left"
+              >
+                {(linkedInvoice as any).invoice_number}
+              </button>
             </div>
           )}
 

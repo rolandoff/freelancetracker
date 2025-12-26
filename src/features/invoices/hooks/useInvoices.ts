@@ -146,11 +146,11 @@ export const useCreateInvoice = () => {
 
       if (linkError) throw linkError
 
-      // Update activities status to por_facturar
+      // Update activities status to facturada (invoiced)
       // @ts-ignore - Supabase type system limitation
       const { error: updateError } = await supabase
         .from('activities')
-        .update({ status: 'por_facturar' } as any)
+        .update({ status: 'facturada', invoiced_at: new Date().toISOString() } as any)
         .in('id', invoice.activity_ids)
 
       if (updateError) throw updateError

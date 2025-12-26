@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Download, Edit, Trash2, CheckCircle } from 'lucide-react'
+import { ArrowLeft, Download, Trash2, CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/badge'
@@ -146,6 +146,7 @@ export function InvoiceDetailPage() {
           Télécharger PDF
         </Button>
 
+        {/* TODO: Add invoice edit functionality
         {invoice.status === 'borrador' && (
           <Button
             onClick={() => navigate(`/invoices/${invoice.id}/edit`)}
@@ -155,6 +156,7 @@ export function InvoiceDetailPage() {
             Modifier
           </Button>
         )}
+        */}
 
         {invoice.status === 'en_espera_pago' && (
           <Button

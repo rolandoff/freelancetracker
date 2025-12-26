@@ -212,8 +212,8 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - [x] Realtime updates with Supabase
 - [x] Configurable rates (base + client-specific)
 - [x] Automatic timer with sidebar widget
+- [x] File attachments (upload/download/delete)
 - [ ] Manual time entry forms
-- [ ] File attachments
 - [ ] Invoice creation and PDF generation
 
 ### Phase 3 - Polish (Week 5)

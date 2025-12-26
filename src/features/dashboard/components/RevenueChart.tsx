@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { TrendingUp } from 'lucide-react'
 import { formatCurrency } from '@/utils/format'
 import type { MonthlyRevenueData } from '../hooks/useDashboardData'
 
@@ -25,7 +26,10 @@ export function RevenueChart({ data, loading }: RevenueChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Évolution du Chiffre d'Affaires</CardTitle>
+        <div className="flex items-center gap-2">
+          <TrendingUp className="h-5 w-5 text-primary-500" />
+          <CardTitle>Évolution du Chiffre d'Affaires</CardTitle>
+        </div>
         <CardDescription>Revenus mensuels des 12 derniers mois</CardDescription>
       </CardHeader>
 

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Progress } from '@/components/ui/progress'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { PiggyBank } from 'lucide-react'
 import { formatCurrency } from '@/utils/format'
 import { calculateURSSAF, getURSSAFAlert } from '../utils/urssafCalculations'
 
@@ -34,7 +35,10 @@ export function URSSAFWidget({ annualRevenue, customRate, loading }: URSSAFWidge
   return (
     <Card>
       <CardHeader>
-        <CardTitle>URSSAF & Plafonds</CardTitle>
+        <div className="flex items-center gap-2">
+          <PiggyBank className="h-5 w-5 text-primary-500" />
+          <CardTitle>URSSAF & Plafonds</CardTitle>
+        </div>
         <CardDescription>Suivi des cotisations et seuils fiscaux 2025</CardDescription>
       </CardHeader>
 

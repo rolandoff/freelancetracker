@@ -1091,7 +1091,7 @@ npm run build:storybook  # Build Storybook static site
 - **Pages**: Login, Register, Dashboard, ProfileSettings (9/15 passing)
 - **Note**: Clients.test.tsx created but needs E2E approach for inline queries
 
-#### Session 3 (Latest - 04:45 UTC+1)
+#### Session 3 (Latest - 04:52 UTC+1)
 - **Invoice Module**: ✅ COMPLETE
   - useInvoices hooks (create, list, update status, delete)
   - InvoicesPage with filters and status management
@@ -1112,8 +1112,14 @@ npm run build:storybook  # Build Storybook static site
   - 3 test spec files created (auth, navigation, dashboard)
   - Ready to implement full test scenarios
 
+- **Build System Fixes**: ✅ RESOLVED
+  - Fixed Playwright bundling errors in Vite (optimizeDeps.exclude)
+  - Resolved Storybook v7/v10 dependency conflicts
+  - Dev server working: http://localhost:3000/
+  - Storybook working: http://localhost:6006/
+
 - **Git Workflow**: ✅ ORGANIZED
-  - 6 logical commits created and pushed
+  - 8 logical commits created and pushed
   - Conventional commit messages
   - Feature-based commit organization
 

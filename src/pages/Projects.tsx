@@ -78,7 +78,7 @@ export function Projects() {
 
       let query = supabase
         .from('projects')
-        .select('*, clients(*)')
+        .select('*, client:clients(*)')
         .eq('user_id', user.id)
 
       if (!showArchived) {

@@ -14,7 +14,7 @@ export const useInvoices = () => {
 
       const { data, error } = await supabase
         .from('invoices')
-        .select('*, client:clients(name), activities:invoice_activities(activity:activities(*))')
+        .select('*, client:clients(name), items:invoice_items(activity:activities(*))')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
 
@@ -30,7 +30,7 @@ export const useInvoice = (id: string) => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('invoices')
-        .select('*, client:clients(*), activities:invoice_activities(activity:activities(*))')
+        .select('*, client:clients(*), items:invoice_items(activity:activities(*))')
         .eq('id', id)
         .single()
 
@@ -210,8 +210,8 @@ export const useDeleteInvoice = () => {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      // Delete invoice_activities first (foreign key constraint)
-      const { error: linkError } = await supabase.from('invoice_activities').delete().eq('invoice_id', id)
+      // Delete invoice_items first (foreign key constraint)
+      const { error: linkError } = await supabase.from('invoice_items').delete().eq('invoice_id', id)
 
       if (linkError) throw linkError
 

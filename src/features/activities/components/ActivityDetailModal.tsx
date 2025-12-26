@@ -6,7 +6,8 @@ import { formatCurrency, formatHours } from '@/utils/format'
 import { ACTIVITY_STATUSES, SERVICE_TYPES } from '@/lib/constants'
 import { useActivityTotalHours } from '../hooks/useTimeEntries'
 import type { ActivityWithRelations } from '../hooks/useActivities'
-import { Clock, DollarSign, Calendar, User, Briefcase, FileText } from 'lucide-react'
+import { useTimerStore } from '@/stores/timerStore'
+import { Clock, DollarSign, Calendar, User, Briefcase, FileText, Play } from 'lucide-react'
 
 interface ActivityDetailModalProps {
   activity: ActivityWithRelations | null
@@ -16,8 +17,16 @@ interface ActivityDetailModalProps {
 
 export function ActivityDetailModal({ activity, onClose, onEdit }: ActivityDetailModalProps) {
   const { data: totalHours } = useActivityTotalHours(activity?.id || null)
+  const startTimer = useTimerStore((state) => state.startTimer)
+  const currentTimerActivityId = useTimerStore((state) => state.activityId)
 
   if (!activity) return null
+
+  const handleStartTimer = () => {
+    startTimer(activity.id)
+  }
+
+  const isTimerActive = currentTimerActivityId === activity.id
 
   const statusInfo = ACTIVITY_STATUSES.find((s) => s.value === activity.status)
   const serviceType = SERVICE_TYPES.find((st) => st.value === activity.service_type)
@@ -45,7 +54,16 @@ export function ActivityDetailModal({ activity, onClose, onEdit }: ActivityDetai
               <p className="text-muted-foreground">{activity.description}</p>
             )}
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 items-center">
+              <Button
+                size="sm"
+                onClick={handleStartTimer}
+                variant={isTimerActive ? "secondary" : "primary"}
+                className="gap-1"
+              >
+                <Play className="w-4 h-4" />
+                {isTimerActive ? "Temporizador activo" : "Iniciar temporizador"}
+              </Button>
               {statusInfo && (
                 <Badge
                   style={{ backgroundColor: statusInfo.color }}

@@ -44,9 +44,9 @@ describe('useInvoiceableActivities', () => {
       wrapper: createWrapper(),
     })
 
-    await waitFor(() => {
-      expect(result.current.data).toEqual([])
-    })
+    // Query is disabled when clientId is null, so data will be undefined
+    expect(result.current.data).toBeUndefined()
+    expect(result.current.isLoading).toBe(false)
   })
 
   it('should fetch projects for client and then activities', async () => {

@@ -141,8 +141,7 @@ export function InvoicesPage() {
                     <TableCell>
                       {invoice.invoice_date ? format(new Date(invoice.invoice_date), 'dd/MM/yyyy') : '-'}
                     </TableCell>
-                    {/* @ts-expect-error - Supabase type */}
-                    <TableCell>{formatCurrency(invoice.total_amount)}</TableCell>
+                    <TableCell>{formatCurrency(invoice.total)}</TableCell>
                     <TableCell>
                       <Badge variant={status.variant}>{status.label}</Badge>
                     </TableCell>

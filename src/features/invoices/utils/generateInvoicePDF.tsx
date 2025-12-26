@@ -142,6 +142,7 @@ interface InvoicePDFProps {
     discount_type?: 'fixed' | 'percentage'
     discount_percentage?: number
     total_amount: number
+    total: number
     notes?: string
     status: string
     client?: {
@@ -153,14 +154,14 @@ interface InvoicePDFProps {
       city?: string
       country?: string
     }
-    activities?: Array<{
+    items?: Array<{
       id: string
       description: string
-      total_hours?: number
-      hourly_rate?: number
-      total_amount?: number
-      project?: {
-        name: string
+      quantity: number
+      unit_price: number
+      total: number
+      activity?: {
+        title: string
       }
     }>
   }
@@ -268,22 +269,22 @@ export const InvoicePDF = ({ invoice, userSettings }: InvoicePDFProps) => {
             <Text style={styles.col4}>Total HT</Text>
           </View>
 
-          {invoice.activities?.map((activity) => (
-            <View key={activity.id} style={styles.tableRow}>
+          {invoice.items?.map((item: any) => (
+            <View key={item.id} style={styles.tableRow}>
               <View style={styles.col1}>
-                <Text>{activity.description}</Text>
-                {activity.project && (
+                <Text>{item.description}</Text>
+                {item.activity && (
                   <Text style={{ fontSize: 8, color: '#666', marginTop: 2 }}>
-                    {activity.project.name}
+                    {item.activity.title}
                   </Text>
                 )}
               </View>
-              <Text style={styles.col2}>{activity.total_hours || 0}h</Text>
+              <Text style={styles.col2}>{item.quantity || 0}h</Text>
               <Text style={styles.col3}>
-                {formatCurrency(activity.hourly_rate || 0)}
+                {formatCurrency(item.unit_price || 0)}
               </Text>
               <Text style={styles.col4}>
-                {formatCurrency(activity.total_amount || 0)}
+                {formatCurrency(item.total || 0)}
               </Text>
             </View>
           ))}
@@ -319,7 +320,7 @@ export const InvoicePDF = ({ invoice, userSettings }: InvoicePDFProps) => {
 
           <View style={styles.grandTotalRow}>
             <Text>Total TTC</Text>
-            <Text>{formatCurrency(invoice.total_amount)}</Text>
+            <Text>{formatCurrency(invoice.total)}</Text>
           </View>
         </View>
 

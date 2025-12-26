@@ -249,6 +249,7 @@ export interface Invoice {
   invoice_date: string
   due_date: string | null
   paid_date: string | null
+  sent_date: string | null
   subtotal: number
   discount_percentage: number
   discount_amount: number

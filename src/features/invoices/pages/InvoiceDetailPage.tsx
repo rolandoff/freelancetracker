@@ -220,28 +220,28 @@ export function InvoiceDetailPage() {
           <div className="space-y-6">
             {/* Activities */}
             <div>
-              <h3 className="font-medium mb-4">Activités facturées</h3>
+              <h3 className="font-medium mb-4">Articles facturés</h3>
               <div className="space-y-2">
                 {/* @ts-expect-error - Supabase type inference issue with joins */}
-                {invoice.activities?.map((activity: any) => (
+                {invoice.items?.map((item: any) => (
                   <div
-                    key={activity.id}
+                    key={item.id}
                     className="flex items-center justify-between p-3 bg-muted rounded-lg"
                   >
                     <div className="flex-1">
-                      <div className="font-medium">{activity.description}</div>
-                      {activity.project && (
+                      <div className="font-medium">{item.description}</div>
+                      {item.activity && (
                         <div className="text-sm text-muted-foreground">
-                          {activity.project.name}
+                          {item.activity.title}
                         </div>
                       )}
                     </div>
                     <div className="text-right">
                       <div className="font-medium">
-                        {formatCurrency(activity.total_amount || 0)}
+                        {formatCurrency(item.total || 0)}
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        {activity.total_hours || 0}h
+                        {item.quantity || 0}h × {formatCurrency(item.unit_price || 0)}
                       </div>
                     </div>
                   </div>
@@ -271,8 +271,7 @@ export function InvoiceDetailPage() {
 
               <div className="flex justify-between text-xl font-bold pt-2 border-t">
                 <span>Total</span>
-                {/* @ts-expect-error - Supabase type inference issue */}
-                <span>{formatCurrency(invoice.total_amount)}</span>
+                <span>{formatCurrency(invoice.total)}</span>
               </div>
             </div>
 

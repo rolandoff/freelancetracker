@@ -243,12 +243,12 @@ export const useInvoiceableActivities = (clientId: string | null) => {
       const projectIds = projects.map((p) => p.id)
       console.log('🔧 Project IDs:', projectIds)
 
-      // Then get completed activities for those projects
+      // Then get activities ready to be invoiced for those projects
       const { data, error } = await supabase
         .from('activities')
         .select('*, project:projects(name)')
         .eq('user_id', user.id)
-        .eq('status', 'completada')
+        .in('status', ['completada', 'por_facturar']) // Include both completed and explicitly marked for invoicing
         .in('project_id', projectIds)
         .order('created_at', { ascending: false })
 

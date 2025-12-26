@@ -10,6 +10,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  optimizeDeps: {
+    exclude: ['@playwright/test', 'playwright', 'playwright-core'],
+  },
   server: {
     port: 3000,
     open: true,

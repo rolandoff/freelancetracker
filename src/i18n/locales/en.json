@@ -65,7 +65,11 @@
     "active": "Active",
     "inactive": "Inactive",
     "showInactive": "Show inactive clients",
-    "noClients": "No clients found"
+    "noClients": "No clients found",
+    "noClientsFound": "No clients found",
+    "noActiveClients": "No active clients",
+    "tryDifferentFilters": "Try different filters or adjust your search.",
+    "createFirstClient": "Create your first client to start managing your business relationships."
   },
   "invoices": {
     "title": "Invoices",
@@ -120,7 +124,9 @@
     "allClients": "All clients",
     "showArchived": "Show archived projects",
     "noProjectsFound": "No projects found",
-    "noActiveProjects": "No active projects. Create your first project to get started.",
+    "noActiveProjects": "No active projects",
+    "tryDifferentFilters": "Try different filters or adjust your search.",
+    "createFirstProject": "Create your first project to organize your work and track progress.",
     "name": "Name",
     "description": "Description",
     "color": "Color",

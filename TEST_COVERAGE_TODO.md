@@ -15,77 +15,46 @@ This document tracks the remaining test coverage work based on the coverage repo
 - [x] **TimeEntryForm component** (29 tests, 3 skipped)
   - All form interactions, validation, create/update modes tested
   - File: `src/features/activities/components/TimeEntryForm.test.tsx`
+- [x] **TimeEntriesList component**
+  - File: `src/features/activities/components/TimeEntriesList.test.tsx`
+  - Coverage: loading + empty states, list rendering with formatted totals, modal open/close, edit/delete actions, confirmation flows, success/error toasts, mutation loading state, and total hours display.
+- [x] **useTimeEntries hooks**
+  - File: `src/features/activities/hooks/useTimeEntries.test.tsx`
+  - Coverage: fetching entries, create/update/delete mutations (with cache invalidation + auth guard), total hours aggregation, and null activity guards.
 
 ### 🔄 IN PROGRESS
-- [ ] **TimeEntriesList component** (0% coverage)
-  - File to create: `src/features/activities/components/TimeEntriesList.test.tsx`
-  - Tests needed:
-    - List rendering (empty state, with entries)
-    - CRUD operations (create, edit, delete)
-    - Total hours display
-    - Modal interactions
-    - Delete confirmation
-
-- [ ] **useTimeEntries hooks** (0% coverage)
-  - File to create: `src/features/activities/hooks/useTimeEntries.test.ts`
-  - Tests needed:
-    - `useTimeEntries` - fetch entries
-    - `useCreateTimeEntry` - create mutation
-    - `useUpdateTimeEntry` - update mutation
-    - `useDeleteTimeEntry` - delete mutation
-    - `useActivityTotalHours` - total calculation
+_Next: KanbanBoard component tests_
 
 ---
 
 ## Priority 2 - Core Hooks (Critical Infrastructure) 🔧
 
-- [ ] **useActivities hook** (0% coverage, 147 lines)
-  - File to create: `src/features/activities/hooks/useActivities.test.ts`
-  - Tests needed:
-    - `useActivities` - fetch with relations
-    - `useCreateActivity` - create mutation
-    - `useUpdateActivity` - update mutation
-    - `useDeleteActivity` - delete mutation
-    - `useUpdateActivityStatus` - status transitions
+- [x] **useActivities hook**
+  - File: `src/features/activities/hooks/useActivities.test.tsx`
+  - Coverage: activities fetch with relations + error path, create/update/delete mutations with cache invalidation and auth guards, and status transition side effects (completed_at timestamps).
 
-- [ ] **useRates hook** (0% coverage, 163 lines)
-  - File to create: `src/features/rates/hooks/useRates.test.ts`
-  - Tests needed:
-    - `useRates` - fetch base and client rates
-    - `useCreateRate` - create mutation
-    - `useUpdateRate` - update mutation
-    - `useDeleteRate` - delete mutation
-    - Rate calculations and filtering
+- [x] **useRates hook**
+  - File: `src/features/rates/hooks/useRates.test.tsx`
+  - Coverage: general, base, and client rate queries (including disabled/null guards), create/update/delete mutations with cache invalidation and auth guard, and `useApplicableRate` client-vs-base fallback logic.
 
-- [ ] **useAttachments hook** (0% coverage, 154 lines)
-  - File to create: `src/features/activities/hooks/useAttachments.test.ts`
-  - Tests needed:
-    - `useAttachments` - fetch files
-    - `useUploadAttachment` - file upload
-    - `useDeleteAttachment` - file deletion
-    - `useDownloadAttachment` - file download
-    - File validation and error handling
+- [x] **useAttachments hook** (now covered)
+  - File: `src/features/activities/hooks/useActivityAttachments.test.tsx`
+  - Coverage: fetch list, upload validation (auth, size, type) + storage/db write + cache invalidation, delete (storage + db) flows, download behavior with browser emulation, and public URL retrieval guards.
 
-- [ ] **useAuth hook** (0% coverage, 36 lines)
-  - File to create: `src/hooks/useAuth.test.ts`
-  - Tests needed:
-    - Login/logout flows
-    - Session management
-    - Error handling
+- [x] **useAuth hook**
+  - File: `src/hooks/useAuth.test.tsx`
+  - Coverage: initial session load, unauthenticated state, auth change handling (login/logout), and subscription cleanup.
 
 ---
 
 ## Priority 3 - Complex Components 📦
 
-- [ ] **ActivityForm component** (0% coverage, 280 lines)
-  - File to create: `src/features/activities/components/ActivityForm.test.tsx`
-  - Tests needed:
-    - Form rendering
-    - Field validation
-    - Client/project selection
-    - Service type and rate calculation
-    - Create vs edit modes
-    - Form submission and error handling
+- [x] **ActivityForm component**
+  - File: `src/features/activities/components/ActivityForm.test.tsx`
+  - Coverage: base rendering, validation errors, client-project filtering, rate autofill, create vs edit submissions, and error handling alert.
+- [x] **KanbanBoard + KanbanColumn components**
+  - File: `src/features/activities/components/KanbanBoard.test.tsx`
+  - Coverage: loading vs board render, column creation, new-activity modal, detail modal + edit handoff, drag overlay rendering, status updates, and guards for invalid drops.
 
 - [ ] **KanbanBoard + KanbanColumn components** (0% coverage, 195 lines total)
   - File to create: `src/features/activities/components/KanbanBoard.test.tsx`
@@ -109,23 +78,13 @@ This document tracks the remaining test coverage work based on the coverage repo
 
 ## Priority 4 - Utilities 🛠️
 
-- [ ] **validation.ts** (0% coverage, 201 lines)
-  - File to create: `src/utils/validation.test.ts`
-  - Tests needed:
-    - SIRET validation (14-digit French business number)
-    - Email validation
-    - Required field validation
-    - French legal compliance validation
-    - Error message generation
+- [x] **validation.ts**
+  - File: `src/utils/validation.test.ts`
+  - Coverage: SIRET (format + Luhn), email, phone, hex color, file rules, rate + positive numbers, password strength, and generic required validation.
 
-- [ ] **format.ts** (0% coverage, 153 lines)
-  - File to create: `src/utils/format.test.ts`
-  - Tests needed:
-    - Date formatting (French locale)
-    - Currency formatting (EUR)
-    - Duration formatting (HH:MM:SS)
-    - Number formatting
-    - Relative time formatting
+- [x] **format.ts**
+  - File: `src/utils/format.test.ts`
+  - Coverage: currency/number formats, date & datetime (including fallback), duration/hours, file size, percentage, SIRET/phone formatting, truncation, initials.
 
 - [ ] **helpers.ts** (0% coverage, 207 lines)
   - File to create: `src/utils/helpers.test.ts`

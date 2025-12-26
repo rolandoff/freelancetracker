@@ -8,7 +8,7 @@ import { Modal } from '@/components/ui/Modal'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Table, TableHeader, TableHead, TableBody, TableRow, TableCell } from '@/components/ui/Table'
-import type { Project, Client } from '@/types/database.types'
+import type { Project, Client, Database } from '@/types/database.types'
 
 interface ProjectFormData {
   client_id: string
@@ -130,15 +130,15 @@ export function Projects() {
   // Update project mutation
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: ProjectFormData }) => {
-      // @ts-expect-error - Supabase type issue with Database generic
       const { error } = await supabase
         .from('projects')
+        // @ts-ignore - Supabase type inference issue
         .update({
           client_id: data.client_id,
           name: data.name,
           description: data.description || null,
           color: data.color,
-        })
+        } as Database['public']['Tables']['projects']['Update'])
         .eq('id', id)
 
       if (error) throw error
@@ -156,10 +156,10 @@ export function Projects() {
   // Toggle archive status mutation
   const toggleArchiveMutation = useMutation({
     mutationFn: async ({ id, is_archived }: { id: string; is_archived: boolean }) => {
-      // @ts-expect-error - Supabase type issue with Database generic
       const { error } = await supabase
         .from('projects')
-        .update({ is_archived: !is_archived })
+        // @ts-ignore - Supabase type inference issue
+        .update({ is_archived: !is_archived } as Database['public']['Tables']['projects']['Update'])
         .eq('id', id)
 
       if (error) throw error

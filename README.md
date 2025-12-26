@@ -209,7 +209,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ### Phase 2 - Core Features (Weeks 3-4) 🚧 IN PROGRESS
 - [x] Kanban drag & drop with @dnd-kit
-- [ ] Realtime updates with Supabase
+- [x] Realtime updates with Supabase
 - [ ] Configurable rates
 - [ ] Automatic timer
 - [ ] Manual time entry

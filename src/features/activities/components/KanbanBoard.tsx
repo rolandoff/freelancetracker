@@ -14,6 +14,7 @@ import { ActivityCard } from './ActivityCard'
 import { Button } from '@/components/ui/Button'
 import { Plus } from 'lucide-react'
 import { useActivities, useUpdateActivityStatus } from '../hooks/useActivities'
+import { useActivitiesRealtime } from '../hooks/useActivitiesRealtime'
 import { ACTIVITY_STATUSES } from '@/lib/constants'
 import type { ActivityWithRelations } from '../hooks/useActivities'
 import type { ActivityStatus } from '@/types/database.types'
@@ -21,6 +22,9 @@ import type { ActivityStatus } from '@/types/database.types'
 export function KanbanBoard() {
   const { data: activities, isLoading } = useActivities()
   const updateStatus = useUpdateActivityStatus()
+  
+  // Enable realtime updates
+  useActivitiesRealtime()
   const [_selectedActivity, setSelectedActivity] = useState<ActivityWithRelations | null>(null)
   const [activeActivity, setActiveActivity] = useState<ActivityWithRelations | null>(null)
 

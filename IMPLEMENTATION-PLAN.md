@@ -3,13 +3,63 @@
 **Start Date**: TBD
 **Target Completion**: 5 weeks
 **Confidence Score**: 8/10
+**Last Updated**: 2025-12-26 04:45 UTC+1
+
+---
+
+## 🎯 TODO LIST - Current Sprint
+
+### High Priority (Must Do)
+- [ ] **Invoice Detail Page** - View invoice details, download PDF, edit drafts
+- [ ] **PDF Generation** - Implement @react-pdf/renderer for French legal invoices
+  - Include Article 293 B CGI mention
+  - Company info, client info, line items, totals
+  - Upload to Supabase Storage
+- [ ] **E2E Test Implementation** - Run Playwright tests for critical flows
+  - Auth flow (login, register, forgot password)
+  - Client CRUD with validation
+  - Invoice creation workflow
+  - Kanban drag-and-drop
+- [ ] **Extract i18n Strings** - Convert hardcoded strings to translations
+  - Activities pages
+  - Projects pages  
+  - Settings pages (partially done)
+  - Modals and forms
+
+### Medium Priority (Should Do)
+- [ ] **Invoice Tests** - Add unit tests for Invoice hooks and components
+  - useInvoices hook tests
+  - InvoiceCreatePage component tests
+  - InvoicesPage component tests
+- [ ] **PreferencesSettings Tests** - Test theme toggle and language selector
+- [ ] **Production Deployment Setup**
+  - Create `.env.production`
+  - Create `deploy.sh` script for LWS
+  - Configure `.htaccess` for SPA routing
+  - Setup SSL certificates
+- [ ] **Invoice Email Notifications** - Send invoice PDFs to clients
+- [ ] **Reports Module** - Client reports, revenue by service type
+
+### Low Priority (Nice to Have)
+- [ ] **More Storybook Stories** - Document complex components
+  - ActivityCard with all states
+  - KanbanColumn with drag states
+  - RateForm with validation
+- [ ] **Dashboard Optimizations** - Cache queries, improve load time
+- [ ] **Mobile Optimizations** - Improve touch interactions on Kanban
+- [ ] **Bulk Operations** - Select multiple invoices/activities
+- [ ] **Export Features** - CSV export for accounting software
+
+---
 
 ## Table of Contents
+- [TODO List](#-todo-list---current-sprint)
 - [Overview](#overview)
 - [Phase Breakdown](#phase-breakdown)
+- [E2E Test Scenarios](#e2e-test-scenarios)
 - [Detailed Task List](#detailed-task-list)
 - [Getting Started](#getting-started)
-- [Day-by-Day Plan](#day-by-day-plan)
+- [Recent Progress](#recent-session-progress-dec-26-2025)
 - [Success Metrics](#success-metrics)
 
 ## Overview
@@ -88,6 +138,91 @@ npm run test
 npm run build:storybook
 ./deploy.sh
 ```
+
+---
+
+## E2E Test Scenarios
+
+### Why E2E Tests?
+Pages with inline TanStack Query hooks (Clients, Projects) are difficult to unit test due to complex mocking requirements. E2E tests with Playwright verify real user workflows.
+
+### Priority Scenarios
+
+#### 1. Authentication Flow (High Priority)
+**Test**: `e2e/auth.spec.ts`
+- Login with valid/invalid credentials
+- Register new user with validation
+- Forgot password flow
+- Session persistence
+
+#### 2. Client Management (High Priority)  
+**Path**: `/clients`
+- Create client with SIRET validation
+- Edit existing client
+- Toggle active/inactive status
+- Filter inactive clients
+- Form validation (email, SIRET Luhn check)
+
+#### 3. Invoice Creation (High Priority)
+**Path**: `/invoices/new`
+- Select client
+- Pick completed activities
+- Calculate totals with discount
+- Submit and verify auto-numbering (YYYY-NNNN)
+- Verify activities marked as "por_facturar"
+
+#### 4. Kanban Workflow (High Priority)
+**Path**: `/kanban`
+- Create new activity
+- Drag between columns (state transitions)
+- Add time entries
+- Upload/download attachments
+- Verify real-time updates
+
+#### 5. Dashboard Navigation (Medium Priority)
+**Path**: `/dashboard`
+- Quick actions navigation
+- KPI data accuracy
+- Chart rendering
+- URSSAF widget calculations
+
+#### 6. Settings Pages (Medium Priority)
+**Path**: `/settings/*`
+- Profile: Update company info, SIRET validation
+- Legal: Toggle TVA, update cotisations
+- Preferences: Theme toggle, language selector
+- Rates: CRUD operations
+
+### Test Data Setup
+```typescript
+// Suggested test user
+const TEST_USER = {
+  email: 'test@example.com',
+  password: 'Test123!@#',
+  company: 'Test Company SARL',
+  siret: '12345678901234'
+}
+
+// Seed data needed
+- 2-3 test clients
+- 2-3 test projects
+- 5-10 test activities in various statuses
+```
+
+### CI/CD Integration
+```bash
+# Run E2E tests
+npm run test:e2e
+
+# Run in headed mode (dev)
+npm run test:e2e:headed
+
+# Run with UI (interactive)
+npm run test:e2e:ui
+```
+
+**Current Status**: ✅ Playwright configured, 3 spec files created
+**Next Step**: Implement full test scenarios with assertions
 
 ---
 
@@ -903,11 +1038,11 @@ npm run build:storybook  # Build Storybook static site
 
 ---
 
-**Last Updated**: 2025-12-26 04:18 UTC+1
-**Current Phase**: Phase 3 - Polish & Deploy
-**Overall Progress**: ~92% Complete
+**Last Updated**: 2025-12-26 04:45 UTC+1
+**Current Phase**: Phase 3 - Polish & Deploy  
+**Overall Progress**: ~95% Complete (Invoice module + i18n added!)
 
-## Recent Session Progress (Dec 26, 2025 - Updated 04:18 UTC+1)
+## Recent Session Progress (Dec 26, 2025 - Updated 04:45 UTC+1)
 
 ### Completed ✅
 
@@ -956,13 +1091,36 @@ npm run build:storybook  # Build Storybook static site
 - **Pages**: Login, Register, Dashboard, ProfileSettings (9/15 passing)
 - **Note**: Clients.test.tsx created but needs E2E approach for inline queries
 
-### Remaining Work
-1. **E2E Tests**: Implement with Playwright (documented in E2E_TEST_PLAN.md)
-2. **Storybook**: Add stories for complex components (ActivityCard, KanbanColumn, InvoiceForm)
-3. **Production Deployment**: 
-   - Create `.env.production`
-   - Create `deploy.sh` script for LWS
-   - Create `.htaccess` for SPA routing
-   - Configure SSL
+#### Session 3 (Latest - 04:45 UTC+1)
+- **Invoice Module**: ✅ COMPLETE
+  - useInvoices hooks (create, list, update status, delete)
+  - InvoicesPage with filters and status management
+  - InvoiceCreatePage with client/activity selection
+  - Auto-invoice numbering (YYYY-NNNN format)
+  - Discount support (percentage/fixed)
+  - Dashboard integration
 
-**Status**: Settings complete, testing at 92.9%, Storybook initialized! Ready for E2E and deployment. 🚀
+- **Internationalization (i18n)**: ✅ COMPLETE
+  - react-i18next configured
+  - 4 languages: 🇫🇷 French (default), 🇬🇧 English, 🇪🇸 Spanish, 🇮🇹 Italian
+  - Language selector in Settings → Préférences
+  - ~100 translation keys per language
+  - LocalStorage persistence
+
+- **E2E Tests**: ✅ CONFIGURED
+  - Playwright installed and configured
+  - 3 test spec files created (auth, navigation, dashboard)
+  - Ready to implement full test scenarios
+
+- **Git Workflow**: ✅ ORGANIZED
+  - 6 logical commits created and pushed
+  - Conventional commit messages
+  - Feature-based commit organization
+
+### Remaining Work (See TODO section above)
+1. **Invoice Detail Page + PDF Generation** (HIGH PRIORITY)
+2. **E2E Test Implementation** - Run full Playwright test suite
+3. **Extract remaining i18n strings** - Activities, Projects, Settings
+4. **Production Deployment** - Scripts, SSL, .htaccess
+
+**Status**: Invoice module complete! i18n live! E2E configured! 95% done - ready for PDF generation and deployment. 🚀

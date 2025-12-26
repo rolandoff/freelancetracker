@@ -38,6 +38,7 @@ export function ActivityDetailModal({ activity, onClose, onEdit }: ActivityDetai
         .single()
       
       if (error) return null
+      // @ts-expect-error - Supabase join typing issue
       return data?.invoice || null
     },
     enabled: !!activity?.id && activity.status === 'facturada',

@@ -213,12 +213,26 @@ export const useInvoiceableActivities = (clientId: string | null) => {
       } = await supabase.auth.getUser()
       if (!user || !clientId) return []
 
+      // First, get all projects for this client
+      const { data: projects, error: projectsError } = await supabase
+        .from('projects')
+        .select('id')
+        .eq('client_id', clientId)
+        .eq('user_id', user.id)
+
+      if (projectsError) throw projectsError
+      if (!projects || projects.length === 0) return []
+
+      // @ts-expect-error - Supabase type inference
+      const projectIds = projects.map((p) => p.id)
+
+      // Then get completed activities for those projects
       const { data, error } = await supabase
         .from('activities')
         .select('*, project:projects(name)')
         .eq('user_id', user.id)
         .eq('status', 'completada')
-        .eq('project.client_id', clientId)
+        .in('project_id', projectIds)
         .order('created_at', { ascending: false })
 
       if (error) throw error

@@ -14,6 +14,7 @@ import { RatesSettings } from './pages/settings/RatesSettings'
 import { LegalSettings } from './pages/settings/LegalSettings'
 import { PreferencesSettings } from './pages/settings/PreferencesSettings'
 import { KanbanPage } from './features/activities/pages/KanbanPage'
+import { RatesPage } from './features/rates/pages/RatesPage'
 import { ROUTES } from './lib/constants'
 
 function App() {

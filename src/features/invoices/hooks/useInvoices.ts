@@ -127,13 +127,22 @@ export const useCreateInvoice = () => {
 
       if (!newInvoice) throw new Error('Failed to create invoice')
 
-      // Link activities to invoice
-      const invoiceActivities = invoice.activity_ids.map((activityId) => ({
-        invoice_id: newInvoice.id,
-        activity_id: activityId,
-      }))
+      // Create invoice items from activities
+      const invoiceItems = (activities as ActivitySubset[] | null)?.map((act, index) => {
+        const quantity = act.estimated_hours || 0
+        const unitPrice = act.hourly_rate || 0
+        return {
+          invoice_id: newInvoice.id,
+          activity_id: invoice.activity_ids[index],
+          description: `Servicio profesional`,
+          quantity,
+          unit_price: unitPrice,
+          total: quantity * unitPrice,
+          sort_order: index,
+        }
+      }) || []
 
-      const { error: linkError } = await supabase.from('invoice_activities').insert(invoiceActivities as any)
+      const { error: linkError } = await supabase.from('invoice_items').insert(invoiceItems as any)
 
       if (linkError) throw linkError
 
@@ -172,16 +181,18 @@ export const useUpdateInvoiceStatus = () => {
 
       // If marking as paid, update activities to facturada
       if (status === 'pagada') {
-        const { data: invoiceActivities } = await supabase
-          .from('invoice_activities')
+        const { data: invoiceItems } = await supabase
+          .from('invoice_items')
           .select('activity_id')
           .eq('invoice_id', id)
 
-        if (invoiceActivities) {
+        if (invoiceItems) {
           // @ts-expect-error - Supabase type inference issue
-          const activityIds = invoiceActivities.map((ia) => ia.activity_id)
-          // @ts-expect-error - Supabase type inference issue
-          await supabase.from('activities').update({ status: 'facturada' }).in('id', activityIds)
+          const activityIds = invoiceItems.map((item) => item.activity_id).filter(Boolean)
+          if (activityIds.length > 0) {
+            // @ts-ignore
+            await supabase.from('activities').update({ status: 'facturada' }).in('id', activityIds)
+          }
         }
       }
 

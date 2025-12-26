@@ -27,11 +27,6 @@ export function InvoiceCreatePage() {
   const [selectedClientId, setSelectedClientId] = useState<string>('')
   const { data: availableActivities, isLoading: isLoadingActivities } = useInvoiceableActivities(selectedClientId || null)
   
-  // Debug: log activities when they change
-  console.log('🔍 Selected Client:', selectedClientId)
-  console.log('🔍 Available Activities:', availableActivities)
-  console.log('🔍 Loading:', isLoadingActivities)
-  
   const [selectedActivityIds, setSelectedActivityIds] = useState<string[]>([])
   const [discountType, setDiscountType] = useState<'percentage' | 'fixed'>('percentage')
   const [discountAmount, setDiscountAmount] = useState<number>(0)

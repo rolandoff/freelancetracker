@@ -4,6 +4,7 @@ import { useTimerStore } from '@/stores/timerStore'
 import { supabase } from '@/lib/supabase'
 import { formatDuration } from '@/utils/format'
 import { Button } from '@/components/ui/Button'
+import { Menu, Moon, Sun, LogOut } from 'lucide-react'
 
 export function Header() {
   const { user } = useAuth()
@@ -20,22 +21,10 @@ export function Header() {
         {/* Mobile menu button */}
         <button
           onClick={toggleSidebar}
-          className="lg:hidden p-2 rounded-md hover:bg-accent"
+          className="lg:hidden p-2 rounded-lg hover:bg-accent transition-colors"
           aria-label="Toggle sidebar"
         >
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
+          <Menu className="h-6 w-6" />
         </button>
 
         {/* Timer Widget */}
@@ -53,10 +42,10 @@ export function Header() {
         {/* Theme toggle */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-md hover:bg-accent"
+          className="p-2 rounded-lg hover:bg-accent transition-all hover:scale-110"
           aria-label="Toggle theme"
         >
-          {theme === 'light' ? '🌙' : '☀️'}
+          {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
         </button>
 
         {/* User menu */}
@@ -71,6 +60,7 @@ export function Header() {
           </div>
 
           <Button variant="ghost" size="sm" onClick={handleSignOut}>
+            <LogOut className="h-4 w-4 mr-2" />
             Déconnexion
           </Button>
         </div>

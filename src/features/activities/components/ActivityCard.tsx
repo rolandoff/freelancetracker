@@ -37,7 +37,7 @@ export function ActivityCard({ activity, onClick, isDragOverlay = false }: Activ
     <Card
       ref={setNodeRef}
       style={style}
-      className="p-4 cursor-pointer hover:shadow-md transition-shadow bg-card"
+      className="p-4 cursor-move hover:shadow-strong transition-all duration-200 hover:scale-[1.02] active:scale-100"
       onClick={onClick}
       {...listeners}
       {...attributes}

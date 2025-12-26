@@ -213,7 +213,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - [x] Configurable rates (base + client-specific)
 - [x] Automatic timer with sidebar widget
 - [x] File attachments (upload/download/delete)
-- [ ] Manual time entry forms
+- [x] Manual time entry forms
 - [ ] Invoice creation and PDF generation
 
 ### Phase 3 - Polish (Week 5)

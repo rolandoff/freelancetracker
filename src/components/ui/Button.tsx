@@ -16,34 +16,36 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={clsx(
-          // Base styles
-          'inline-flex items-center justify-center rounded-md font-medium transition-colors',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
-          'disabled:pointer-events-none disabled:opacity-50',
+          // Base styles - Modern design
+          'inline-flex items-center justify-center font-medium',
+          'transition-all duration-200 ease-in-out',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
+          'disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed',
 
           // Variants
           {
-            // Primary
-            'bg-primary-500 text-white hover:bg-primary-600 focus-visible:ring-primary-500':
+            // Primary - Modern gradient with shadow
+            'bg-gradient-to-br from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 hover:shadow-medium active:scale-95':
               variant === 'primary',
 
-            // Secondary
-            'border border-border bg-background hover:bg-accent focus-visible:ring-accent':
+            // Secondary - Subtle with border
+            'border-2 border-border bg-background hover:bg-accent hover:border-primary-300 hover:shadow-soft':
               variant === 'secondary',
 
-            // Destructive
-            'bg-error-500 text-white hover:bg-error-600 focus-visible:ring-error-500':
+            // Destructive - Red gradient
+            'bg-gradient-to-br from-error-500 to-error-600 text-white hover:from-error-600 hover:to-error-700 hover:shadow-medium active:scale-95':
               variant === 'destructive',
 
-            // Ghost
-            'hover:bg-accent hover:text-accent-foreground': variant === 'ghost',
+            // Ghost - Minimal
+            'hover:bg-accent/50 hover:text-accent-foreground hover:shadow-soft':
+              variant === 'ghost',
           },
 
-          // Sizes
+          // Sizes with varied border-radius
           {
-            'h-8 px-3 text-sm': size === 'sm',
-            'h-11 px-6 text-base': size === 'md',
-            'h-14 px-8 text-lg': size === 'lg',
+            'h-8 px-3 text-sm rounded-md': size === 'sm',
+            'h-11 px-6 text-base rounded-lg': size === 'md',
+            'h-14 px-8 text-lg rounded-xl': size === 'lg',
           },
 
           className

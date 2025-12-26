@@ -29,19 +29,19 @@ export function KPICard({ title, value, icon: Icon, trend, loading }: KPICardPro
   return (
     <Card>
       <CardContent className="p-6">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
-            <p className="text-2xl font-bold mt-2">{value}</p>
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1 space-y-2">
+            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">{title}</h3>
+            <p className="text-3xl font-bold bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">{value}</p>
             {trend && (
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-muted-foreground">
                 {trend.label}
               </p>
             )}
           </div>
           {Icon && (
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <Icon className="w-5 h-5 text-primary" />
+            <div className="p-3 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-xl border border-primary-500/20">
+              <Icon className="w-6 h-6 text-primary-600" />
             </div>
           )}
         </div>

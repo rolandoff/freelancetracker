@@ -7,7 +7,7 @@ interface TableProps {
 
 export function Table({ children, className }: TableProps) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto rounded-xl border border-border/50 shadow-soft">
       <table className={cn('w-full text-sm', className)}>{children}</table>
     </div>
   )
@@ -19,7 +19,7 @@ interface TableHeaderProps {
 
 export function TableHeader({ children }: TableHeaderProps) {
   return (
-    <thead className="bg-muted/50 border-b border-border">
+    <thead className="bg-gradient-to-r from-muted/30 to-muted/50 border-b-2 border-border/50">
       <tr>{children}</tr>
     </thead>
   )
@@ -34,7 +34,7 @@ export function TableHead({ children, className }: TableHeadProps) {
   return (
     <th
       className={cn(
-        'px-4 py-3 text-left font-medium text-muted-foreground',
+        'px-6 py-4 text-left font-semibold text-sm uppercase tracking-wide text-muted-foreground',
         className
       )}
     >
@@ -61,8 +61,8 @@ export function TableRow({ children, className, onClick }: TableRowProps) {
   return (
     <tr
       className={cn(
-        'hover:bg-muted/30 transition-colors',
-        onClick && 'cursor-pointer',
+        'hover:bg-accent/50 transition-all duration-150',
+        onClick && 'cursor-pointer hover:shadow-soft',
         className
       )}
       onClick={onClick}
@@ -78,5 +78,5 @@ interface TableCellProps {
 }
 
 export function TableCell({ children, className }: TableCellProps) {
-  return <td className={cn('px-4 py-3', className)}>{children}</td>
+  return <td className={cn('px-6 py-4', className)}>{children}</td>
 }

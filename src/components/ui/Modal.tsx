@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { cn } from '@/utils/cn'
+import { X } from 'lucide-react'
 
 interface ModalProps {
   isOpen: boolean
@@ -43,7 +44,7 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-md animate-in fade-in-0 duration-300"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -52,8 +53,8 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
       <div
         ref={modalRef}
         className={cn(
-          'relative w-full mx-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl',
-          'animate-in fade-in-0 zoom-in-95 duration-200',
+          'relative w-full mx-4 bg-card rounded-2xl shadow-elevation border border-border/50',
+          'animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4 duration-300',
           sizeClasses[size]
         )}
         role="dialog"
@@ -61,28 +62,16 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
         aria-labelledby="modal-title"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-border">
-          <h2 id="modal-title" className="text-xl font-semibold">
+        <div className="flex items-center justify-between p-6 border-b border-border/50">
+          <h2 id="modal-title" className="text-xl font-semibold bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
             {title}
           </h2>
           <button
             onClick={onClose}
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-all hover:scale-110"
             aria-label="Fermer"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <X className="w-5 h-5" />
           </button>
         </div>
 

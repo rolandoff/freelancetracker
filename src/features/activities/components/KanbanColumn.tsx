@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useDroppable } from '@dnd-kit/core'
 import { ActivityCard } from './ActivityCard'
+import { motion } from 'framer-motion'
 import type { ActivityWithRelations } from '../hooks/useActivities'
 import type { ActivityStatus } from '@/types/database.types'
 
@@ -31,35 +32,49 @@ export function KanbanColumn({
   return (
     <div className="flex flex-col h-full min-w-[280px] w-[280px]">
       <div
-        className="px-4 py-3 rounded-t-lg font-semibold text-sm text-white"
-        style={{ backgroundColor: color }}
+        className="px-4 py-3 rounded-t-xl font-bold text-sm text-white shadow-md"
+        style={{ 
+          background: `linear-gradient(135deg, ${color} 0%, ${color}dd 100%)`,
+        }}
       >
         <div className="flex items-center justify-between">
-          <span>{title}</span>
-          <span className="text-xs opacity-90">{columnActivities.length}</span>
+          <span className="uppercase tracking-wide">{title}</span>
+          <span className="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold">
+            {columnActivities.length}
+          </span>
         </div>
       </div>
 
-      <div
+      <motion.div
         ref={setNodeRef}
-        className={`flex-1 bg-muted/30 rounded-b-lg p-3 space-y-3 overflow-y-auto transition-colors ${
-          isOver ? 'bg-primary/10 ring-2 ring-primary' : ''
+        animate={{
+          backgroundColor: isOver ? 'rgba(139, 92, 246, 0.1)' : 'rgba(0, 0, 0, 0.02)',
+        }}
+        className={`flex-1 rounded-b-xl p-3 space-y-3 overflow-y-auto transition-all ${
+          isOver ? 'ring-2 ring-primary-400 shadow-lg' : ''
         }`}
       >
         {columnActivities.length === 0 ? (
-          <div className="text-center text-sm text-muted-foreground py-8">
-            No hay actividades
+          <div className="text-center text-sm text-muted-foreground py-12 space-y-2">
+            <div className="text-3xl opacity-50">📋</div>
+            <p className="font-medium">Aucune activité</p>
           </div>
         ) : (
-          columnActivities.map((activity) => (
-            <ActivityCard
+          columnActivities.map((activity, index) => (
+            <motion.div
               key={activity.id}
-              activity={activity}
-              onClick={() => onActivityClick?.(activity)}
-            />
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+            >
+              <ActivityCard
+                activity={activity}
+                onClick={() => onActivityClick?.(activity)}
+              />
+            </motion.div>
           ))
         )}
-      </div>
+      </motion.div>
     </div>
   )
 }

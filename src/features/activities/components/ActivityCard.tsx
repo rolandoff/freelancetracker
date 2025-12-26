@@ -36,15 +36,18 @@ export function ActivityCard({ activity, onClick, isDragOverlay = false }: Activ
   return (
     <Card
       ref={setNodeRef}
-      style={style}
-      className="p-4 cursor-move hover:shadow-strong transition-all duration-200 hover:scale-[1.02] active:scale-100"
+      style={{
+        ...style,
+        borderLeft: activity.project ? `4px solid ${activity.project.color}` : undefined,
+      }}
+      className="p-4 cursor-move hover:shadow-strong transition-all duration-200 hover:scale-[1.02] active:scale-100 bg-card"
       onClick={onClick}
       {...listeners}
       {...attributes}
     >
       <div className="space-y-3">
         <div className="flex items-start justify-between gap-2">
-          <h4 className="font-medium text-sm line-clamp-2">{activity.title}</h4>
+          <h4 className="font-semibold text-sm line-clamp-2 flex-1">{activity.title}</h4>
           <div className="flex items-center gap-1 shrink-0">
             {serviceType && (
               <Badge variant="secondary" className="text-xs">
@@ -55,10 +58,10 @@ export function ActivityCard({ activity, onClick, isDragOverlay = false }: Activ
               size="sm"
               variant="ghost"
               onClick={handleStartTimer}
-              className="h-6 w-6 p-0"
+              className="h-7 w-7 p-0 hover:bg-primary-100 hover:text-primary-600"
               title="Start timer"
             >
-              <Play className="w-3 h-3" />
+              <Play className="w-3.5 h-3.5" />
             </Button>
           </div>
         </div>
@@ -69,24 +72,26 @@ export function ActivityCard({ activity, onClick, isDragOverlay = false }: Activ
           </p>
         )}
 
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2 flex-1 min-w-0">
             {activity.project && (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5 font-medium text-foreground/80 truncate">
                 <div
-                  className="w-3 h-3 rounded-full"
+                  className="w-2 h-2 rounded-full flex-shrink-0"
                   style={{ backgroundColor: activity.project.color || '#gray' }}
                 />
-                <span>{activity.project.name}</span>
+                <span className="truncate">{activity.project.name}</span>
               </div>
             )}
-            {activity.client && <span>• {activity.client.name}</span>}
+            {activity.client && (
+              <span className="text-muted-foreground truncate">• {activity.client.name}</span>
+            )}
           </div>
 
           {activity.estimated_hours && (
-            <div className="flex items-center gap-1">
-              <Clock className="w-3 h-3" />
-              <span>{activity.estimated_hours}h</span>
+            <div className="flex items-center gap-1 text-muted-foreground flex-shrink-0">
+              <Clock className="w-3.5 h-3.5" />
+              <span className="font-mono font-semibold">{activity.estimated_hours}h</span>
             </div>
           )}
         </div>

@@ -4,16 +4,26 @@ import { ROUTES } from '@/lib/constants'
 import { clsx } from 'clsx'
 import { TimeTracker } from '@/features/activities/components/TimeTracker'
 import { useTranslation } from 'react-i18next'
+import {
+  LayoutDashboard,
+  KanbanSquare,
+  Users,
+  Folder,
+  FileText,
+  PiggyBank,
+  BarChart3,
+  Settings,
+} from 'lucide-react'
 
 const navigation = [
-  { nameKey: 'sidebar.dashboard', href: ROUTES.DASHBOARD, icon: 'LayoutDashboard' },
-  { nameKey: 'sidebar.kanban', href: ROUTES.KANBAN, icon: 'Kanban' },
-  { nameKey: 'sidebar.clients', href: ROUTES.CLIENTS, icon: 'Users' },
-  { nameKey: 'sidebar.projects', href: ROUTES.PROJECTS, icon: 'Folder' },
-  { nameKey: 'sidebar.invoices', href: ROUTES.INVOICES, icon: 'FileText' },
-  { nameKey: 'sidebar.urssaf', href: ROUTES.URSSAF, icon: 'PiggyBank' },
-  { nameKey: 'sidebar.reports', href: ROUTES.REPORTS, icon: 'BarChart3' },
-  { nameKey: 'sidebar.settings', href: ROUTES.SETTINGS, icon: 'Settings' },
+  { nameKey: 'sidebar.dashboard', href: ROUTES.DASHBOARD, Icon: LayoutDashboard },
+  { nameKey: 'sidebar.kanban', href: ROUTES.KANBAN, Icon: KanbanSquare },
+  { nameKey: 'sidebar.clients', href: ROUTES.CLIENTS, Icon: Users },
+  { nameKey: 'sidebar.projects', href: ROUTES.PROJECTS, Icon: Folder },
+  { nameKey: 'sidebar.invoices', href: ROUTES.INVOICES, Icon: FileText },
+  { nameKey: 'sidebar.urssaf', href: ROUTES.URSSAF, Icon: PiggyBank },
+  { nameKey: 'sidebar.reports', href: ROUTES.REPORTS, Icon: BarChart3 },
+  { nameKey: 'sidebar.settings', href: ROUTES.SETTINGS, Icon: Settings },
 ]
 
 export function Sidebar() {
@@ -54,10 +64,7 @@ export function Sidebar() {
                 )
               }
             >
-              <span className="h-5 w-5">
-                {/* Icon placeholder - will add lucide-react icons later */}
-                📊
-              </span>
+              <item.Icon className="h-5 w-5" />
               {sidebarOpen && <span>{t(item.nameKey)}</span>}
             </NavLink>
           ))}
@@ -104,7 +111,7 @@ export function Sidebar() {
               }
               onClick={() => useUIStore.getState().setSidebarOpen(false)}
             >
-              <span className="h-5 w-5">📊</span>
+              <item.Icon className="h-5 w-5" />
               <span>{t(item.nameKey)}</span>
             </NavLink>
           ))}

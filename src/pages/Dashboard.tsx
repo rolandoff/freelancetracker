@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Euro, TrendingUp, Activity, FileText, Plus, User } from 'lucide-react'
+import { Euro, TrendingUp, Activity, FileText, Plus, Users } from 'lucide-react'
 import { KPICard } from '@/features/dashboard/components/KPICard'
 import { RevenueChart } from '@/features/dashboard/components/RevenueChart'
 import { URSSAFWidget } from '@/features/dashboard/components/URSSAFWidget'
@@ -74,8 +74,7 @@ export function Dashboard() {
             className="rounded-md border border-border p-4 text-left hover:bg-accent transition-colors"
           >
             <div className="flex items-center gap-2 mb-2">
-              <Plus className="w-5 h-5 text-primary" />
-              <span className="text-2xl">📝</span>
+              <Plus className="w-5 h-5 text-primary-500" />
             </div>
             <h3 className="font-medium">{t('dashboard.newActivity')}</h3>
             <p className="text-sm text-muted-foreground">{t('dashboard.newActivityDesc')}</p>
@@ -85,8 +84,7 @@ export function Dashboard() {
             className="rounded-md border border-border p-4 text-left hover:bg-accent transition-colors"
           >
             <div className="flex items-center gap-2 mb-2">
-              <FileText className="w-5 h-5 text-primary" />
-              <span className="text-2xl">📄</span>
+              <FileText className="w-5 h-5 text-primary-500" />
             </div>
             <h3 className="font-medium">{t('dashboard.newInvoice')}</h3>
             <p className="text-sm text-muted-foreground">{t('dashboard.newInvoiceDesc')}</p>
@@ -96,8 +94,7 @@ export function Dashboard() {
             className="rounded-md border border-border p-4 text-left hover:bg-accent transition-colors"
           >
             <div className="flex items-center gap-2 mb-2">
-              <User className="w-5 h-5 text-primary" />
-              <span className="text-2xl">👤</span>
+              <Users className="w-5 h-5 text-primary-500" />
             </div>
             <h3 className="font-medium">{t('dashboard.newClient')}</h3>
             <p className="text-sm text-muted-foreground">{t('dashboard.newClientDesc')}</p>

@@ -1,0 +1,29 @@
+{
+  "clients": {
+    "title": "Clients",
+    "subtitle": "Gérez vos clients et leurs informations",
+    "newClient": "Nouveau client",
+    "editClient": "Modifier le client",
+    "showInactive": "Afficher les clients inactifs",
+    "noClientsFound": "Aucun client trouvé",
+    "noActiveClients": "Aucun client actif. Créez votre premier client pour commencer.",
+    "name": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "status": "Statut",
+    "actions": "Actions",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "edit": "Modifier",
+    "deactivate": "Désactiver",
+    "activate": "Activer",
+    "created": "Client créé",
+    "createdSuccess": "Le client a été ajouté avec succès",
+    "updated": "Client modifié",
+    "updatedSuccess": "Les modifications ont été enregistrées",
+    "updateError": "Impossible de modifier le client",
+    "statusUpdated": "Statut modifié",
+    "statusUpdatedSuccess": "Le statut du client a été mis à jour",
+    "statusUpdateError": "Impossible de modifier le statut"
+  }
+}

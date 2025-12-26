@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/Label'
 import { Table, TableHeader, TableHead, TableBody, TableRow, TableCell } from '@/components/ui/Table'
 import { validateEmail, validateSIRET } from '@/utils/validation'
 import { formatSIRET } from '@/utils/format'
+import { useTranslation } from 'react-i18next'
 import type { Client } from '@/types/database.types'
 
 interface ClientFormData {
@@ -39,6 +40,7 @@ const emptyFormData: ClientFormData = {
 }
 
 export function Clients() {
+  const { t } = useTranslation()
   const { user } = useAuth()
   const { success, error } = useToast()
   const queryClient = useQueryClient()
@@ -98,7 +100,7 @@ export function Clients() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['clients'] })
-      success('Client créé', 'Le client a été ajouté avec succès')
+      success(t('clients.created'), t('clients.createdSuccess'))
       closeModal()
     },
     onError: (err: Error) => {
@@ -130,11 +132,11 @@ export function Clients() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['clients'] })
-      success('Client modifié', 'Les modifications ont été enregistrées')
+      success(t('clients.updated'), t('clients.updatedSuccess'))
       closeModal()
     },
     onError: (err: Error) => {
-      error('Erreur', err.message || 'Impossible de modifier le client')
+      error(t('common.error'), err.message || t('clients.updateError'))
     },
   })
 
@@ -151,10 +153,10 @@ export function Clients() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['clients'] })
-      success('Statut modifié', 'Le statut du client a été mis à jour')
+      success(t('clients.statusUpdated'), t('clients.statusUpdatedSuccess'))
     },
     onError: (err: Error) => {
-      error('Erreur', err.message || 'Impossible de modifier le statut')
+      error(t('common.error'), err.message || t('clients.statusUpdateError'))
     },
   })
 
@@ -247,10 +249,10 @@ export function Clients() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Clients</h1>
-          <p className="text-muted-foreground">Gérez vos clients et leurs informations</p>
+          <h1 className="text-3xl font-bold">{t('clients.title')}</h1>
+          <p className="text-muted-foreground">{t('clients.subtitle')}</p>
         </div>
-        <Button onClick={openCreateModal}>Nouveau client</Button>
+        <Button onClick={openCreateModal}>{t('clients.newClient')}</Button>
       </div>
 
       {/* Filters */}
@@ -262,7 +264,7 @@ export function Clients() {
             onChange={(e) => setShowInactive(e.target.checked)}
             className="h-4 w-4 rounded border-border"
           />
-          Afficher les clients inactifs
+          {t('clients.showInactive')}
         </label>
       </div>
 
@@ -335,7 +337,7 @@ export function Clients() {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        title={editingClient ? 'Modifier le client' : 'Nouveau client'}
+        title={editingClient ? t('clients.editClient') : t('clients.newClient')}
         size="lg"
       >
         <form onSubmit={handleSubmit} className="space-y-4">

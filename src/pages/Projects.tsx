@@ -8,6 +8,7 @@ import { Modal } from '@/components/ui/Modal'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Table, TableHeader, TableHead, TableBody, TableRow, TableCell } from '@/components/ui/Table'
+import { useTranslation } from 'react-i18next'
 import type { Project, Client, Database } from '@/types/database.types'
 
 interface ProjectFormData {
@@ -40,6 +41,7 @@ interface ProjectWithClient extends Project {
 }
 
 export function Projects() {
+  const { t } = useTranslation()
   const { user } = useAuth()
   const { success, error } = useToast()
   const queryClient = useQueryClient()
@@ -119,7 +121,7 @@ export function Projects() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
-      success('Projet créé', 'Le projet a été ajouté avec succès')
+      success(t('projects.created'), t('projects.createdSuccess'))
       closeModal()
     },
     onError: (err: Error) => {
@@ -145,11 +147,11 @@ export function Projects() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
-      success('Projet modifié', 'Les modifications ont été enregistrées')
+      success(t('projects.updated'), t('projects.updatedSuccess'))
       closeModal()
     },
     onError: (err: Error) => {
-      error('Erreur', err.message || 'Impossible de modifier le projet')
+      error(t('common.error'), err.message || t('projects.updateError'))
     },
   })
 
@@ -166,10 +168,10 @@ export function Projects() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
-      success('Statut modifié', 'Le statut du projet a été mis à jour')
+      success(t('projects.statusUpdated'), t('projects.statusUpdatedSuccess'))
     },
     onError: (err: Error) => {
-      error('Erreur', err.message || 'Impossible de modifier le statut')
+      error(t('common.error'), err.message || t('projects.statusUpdateError'))
     },
   })
 
@@ -211,11 +213,11 @@ export function Projects() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.client_id) {
-      newErrors.client_id = 'Le client est requis'
+      newErrors.client_id = t('projects.clientRequired')
     }
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Le nom est requis'
+      newErrors.name = t('projects.nameRequired')
     }
 
     setErrors(newErrors)
@@ -251,11 +253,11 @@ export function Projects() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Projets</h1>
-          <p className="text-muted-foreground">Gérez vos projets clients</p>
+          <h1 className="text-3xl font-bold">{t('projects.title')}</h1>
+          <p className="text-muted-foreground">{t('projects.subtitle')}</p>
         </div>
         <Button onClick={openCreateModal} disabled={!clients || clients.length === 0}>
-          Nouveau projet
+          {t('projects.newProject')}
         </Button>
       </div>
 
@@ -263,7 +265,7 @@ export function Projects() {
       {(!clients || clients.length === 0) && (
         <div className="rounded-lg border border-amber-500 bg-amber-50 dark:bg-amber-950 p-4">
           <p className="text-amber-800 dark:text-amber-200">
-            Vous devez d'abord créer un client avant de pouvoir créer un projet.
+            {t('projects.noClientsWarning')}
           </p>
         </div>
       )}
@@ -271,13 +273,13 @@ export function Projects() {
       {/* Filters */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <label className="text-sm font-medium">Client:</label>
+          <label className="text-sm font-medium">{t('projects.client')}:</label>
           <select
             value={selectedClient}
             onChange={(e) => setSelectedClient(e.target.value)}
             className="px-3 py-2 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
-            <option value="">Tous les clients</option>
+            <option value="">{t('projects.allClients')}</option>
             {clients?.map((client) => (
               <option key={client.id} value={client.id}>
                 {client.name}
@@ -293,7 +295,7 @@ export function Projects() {
             onChange={(e) => setShowArchived(e.target.checked)}
             className="h-4 w-4 rounded border-border"
           />
-          Afficher les projets archivés
+          {t('projects.showArchived')}
         </label>
       </div>
 
@@ -302,20 +304,20 @@ export function Projects() {
         <div className="rounded-lg border border-border bg-card p-8 text-center">
           <p className="text-muted-foreground">
             {showArchived || selectedClient
-              ? 'Aucun projet trouvé'
-              : 'Aucun projet actif. Créez votre premier projet pour commencer.'}
+              ? t('projects.noProjectsFound')
+              : t('projects.noActiveProjects')}
           </p>
         </div>
       ) : (
         <div className="rounded-lg border border-border bg-card">
           <Table>
             <TableHeader>
-              <TableHead>Nom</TableHead>
-              <TableHead>Client</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Couleur</TableHead>
-              <TableHead>Statut</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>{t('projects.name')}</TableHead>
+              <TableHead>{t('projects.client')}</TableHead>
+              <TableHead>{t('projects.description')}</TableHead>
+              <TableHead>{t('projects.color')}</TableHead>
+              <TableHead>{t('projects.status')}</TableHead>
+              <TableHead className="text-right">{t('projects.actions')}</TableHead>
             </TableHeader>
             <TableBody>
               {projects.map((project) => (
@@ -341,7 +343,7 @@ export function Projects() {
                           : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
                       }`}
                     >
-                      {project.is_archived ? 'Archivé' : 'Actif'}
+                      {project.is_archived ? t('projects.archived') : t('projects.active')}
                     </span>
                   </TableCell>
                   <TableCell className="text-right">
@@ -351,14 +353,14 @@ export function Projects() {
                         size="sm"
                         onClick={() => openEditModal(project)}
                       >
-                        Modifier
+                        {t('projects.edit')}
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => handleToggleArchive(project)}
                       >
-                        {project.is_archived ? 'Désarchiver' : 'Archiver'}
+                        {project.is_archived ? t('projects.unarchive') : t('projects.archive')}
                       </Button>
                     </div>
                   </TableCell>
@@ -373,14 +375,14 @@ export function Projects() {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        title={editingProject ? 'Modifier le projet' : 'Nouveau projet'}
+        title={editingProject ? t('projects.editProject') : t('projects.newProject')}
         size="md"
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Client */}
           <div className="space-y-2">
             <Label htmlFor="client_id" required>
-              Client
+              {t('projects.client')}
             </Label>
             <select
               id="client_id"
@@ -392,7 +394,7 @@ export function Projects() {
               } bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500`}
               required
             >
-              <option value="">Sélectionnez un client</option>
+              <option value="">{t('projects.selectClient')}</option>
               {clients?.map((client) => (
                 <option key={client.id} value={client.id}>
                   {client.name}
@@ -416,7 +418,7 @@ export function Projects() {
           {/* Name */}
           <div className="space-y-2">
             <Label htmlFor="name" required>
-              Nom du projet
+              {t('projects.projectName')}
             </Label>
             <Input
               id="name"
@@ -431,21 +433,25 @@ export function Projects() {
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">
+              {t('projects.description')}
+            </Label>
             <textarea
               id="description"
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="w-full px-3 py-2 rounded-md border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary-500"
               rows={3}
-              placeholder="Description du projet..."
+              className="w-full px-3 py-2 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
+              placeholder={t('projects.descriptionPlaceholder')}
             />
           </div>
 
           {/* Color */}
           <div className="space-y-2">
-            <Label htmlFor="color">Couleur</Label>
+            <Label htmlFor="color">
+              {t('projects.color')}
+            </Label>
             <div className="grid grid-cols-4 gap-2">
               {COLOR_OPTIONS.map((colorOption) => (
                 <button
@@ -473,13 +479,10 @@ export function Projects() {
           {/* Actions */}
           <div className="flex justify-end gap-3 pt-4">
             <Button type="button" variant="secondary" onClick={closeModal}>
-              Annuler
+              {t('common.cancel')}
             </Button>
-            <Button
-              type="submit"
-              isLoading={createMutation.isPending || updateMutation.isPending}
-            >
-              {editingProject ? 'Enregistrer' : 'Créer'}
+            <Button type="submit" isLoading={createMutation.isPending || updateMutation.isPending}>
+              {editingProject ? t('common.save') : t('common.create')}
             </Button>
           </div>
         </form>

@@ -11,10 +11,11 @@ describe('Dashboard page', () => {
       screen.getByText(/bienvenue sur votre tableau de bord/i)
     ).toBeInTheDocument()
 
-    expect(screen.getByText(/ca mensuel/i)).toBeInTheDocument()
-    expect(screen.getByText(/ca annuel/i)).toBeInTheDocument()
-    expect(screen.getByText(/activités actives/i)).toBeInTheDocument()
-    expect(screen.getByText(/factures en attente/i)).toBeInTheDocument()
+    // Check for KPI card titles (using getAllByText since titles may appear multiple times)
+    expect(screen.getAllByText(/ca mensuel/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/ca annuel/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/activités actives/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/factures en attente/i).length).toBeGreaterThan(0)
 
     expect(screen.getByRole('heading', { name: /actions rapides/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /nouvelle activité/i })).toBeInTheDocument()

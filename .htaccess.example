@@ -5,9 +5,9 @@
   RewriteEngine On
   RewriteBase /
   
-  # Redirect to HTTPS (optional)
-  # RewriteCond %{HTTPS} off
-  # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  # Redirect to HTTPS (uncomment after SSL is activated in LWS panel)
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   
   # Serve index.html directly
   RewriteRule ^index\.html$ - [L]

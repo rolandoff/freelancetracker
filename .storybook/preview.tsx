@@ -1,9 +1,11 @@
-import type { Preview } from '@storybook/react-vite'
+import type { Preview } from '@storybook/react'
+import type { Decorator } from '@storybook/react'
 import { useEffect } from 'react'
 import '../src/styles/index.css'
+import { JSX } from 'react/jsx-runtime'
 
 // Decorator to handle dark mode class based on background color
-const withTheme = (Story, context) => {
+const withTheme: Decorator = (Story, context) => {
   const backgroundColor = context.globals.backgrounds?.value || '#ffffff'
   
   useEffect(() => {

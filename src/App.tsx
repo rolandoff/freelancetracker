@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { QueryProvider } from './providers/QueryProvider'
 import { ThemeProvider } from './providers/ThemeProvider'
 import { AppLayout } from './components/layout/AppLayout'
+import { GoogleAnalytics } from './components/GoogleAnalytics'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { ForgotPassword } from './pages/ForgotPassword'
@@ -25,6 +26,7 @@ function App() {
     <QueryProvider>
       <ThemeProvider>
         <BrowserRouter>
+          <GoogleAnalytics />
           <Routes>
             {/* Public routes */}
             <Route path={ROUTES.LOGIN} element={<Login />} />

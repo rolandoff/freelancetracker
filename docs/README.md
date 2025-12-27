@@ -29,6 +29,7 @@ Technical documentation for developers working on the project.
 - **[DATABASE.md](development/DATABASE.md)** - Database schema and design
 - **[DESIGN-TOKENS.md](development/DESIGN-TOKENS.md)** - UI design system and tokens
 - **[SECURITY.md](development/SECURITY.md)** - Security best practices and RLS policies
+- **[GOOGLE-ANALYTICS.md](development/GOOGLE-ANALYTICS.md)** - Google Analytics 4 integration guide
 - **[TROUBLESHOOTING.md](development/TROUBLESHOOTING.md)** - Common issues and solutions
 
 ### `/testing` - Testing Documentation

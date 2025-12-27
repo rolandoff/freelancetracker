@@ -29,7 +29,10 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
-      - name: Deploy to LWS via FTP
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      - name: Deploy main app to LWS via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -44,8 +47,19 @@ jobs:
             **/node_modules/**
             .htaccess
 
+      - name: Deploy Storybook to LWS via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./storybook-static/
+          server-dir: /public_html/freelancetracker/storybook/
+          dangerous-clean-slate: false
+
       - name: Deployment notification
         if: success()
         run: |
           echo "✅ Deployment successful!"
-          echo "Site: https://freelancetracker.rolandoff.com"
+          echo "Main app: https://freelancetracker.rolandoff.com"
+          echo "Storybook: https://freelancetracker.rolandoff.com/storybook/"

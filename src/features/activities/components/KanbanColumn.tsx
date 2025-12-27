@@ -49,6 +49,11 @@ export function KanbanColumn({
         ref={setNodeRef}
         animate={{
           backgroundColor: isOver ? 'rgba(139, 92, 246, 0.1)' : 'rgba(0, 0, 0, 0.02)',
+          scale: isOver ? 1.02 : 1,
+        }}
+        transition={{
+          duration: 0.2,
+          ease: 'easeInOut',
         }}
         className={`flex-1 rounded-b-xl p-3 space-y-3 overflow-y-auto transition-all ${
           isOver ? 'ring-2 ring-primary-400 shadow-lg' : ''

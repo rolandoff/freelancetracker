@@ -38,13 +38,13 @@ export function KanbanBoard() {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 10,
+        distance: 8,
       },
     }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 150,
-        tolerance: 5,
+        delay: 100,
+        tolerance: 8,
       },
     })
   )
@@ -108,8 +108,15 @@ export function KanbanBoard() {
 
       </div>
 
-      <DragOverlay>
-        {activeActivity ? <ActivityCard activity={activeActivity} isDragOverlay /> : null}
+      <DragOverlay dropAnimation={{
+        duration: 200,
+        easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
+      }}>
+        {activeActivity ? (
+          <div className="rotate-[-3deg]">
+            <ActivityCard activity={activeActivity} isDragOverlay />
+          </div>
+        ) : null}
       </DragOverlay>
 
       {/* Create Activity Form */}

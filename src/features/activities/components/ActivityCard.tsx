@@ -1,4 +1,4 @@
-import { Clock, FileText, Play } from 'lucide-react'
+import { Clock, FileText, Play, GripVertical } from 'lucide-react'
 import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import { Card } from '@/components/ui/Card'
@@ -23,8 +23,14 @@ export function ActivityCard({ activity, onClick, isDragOverlay = false }: Activ
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    opacity: isDragging ? 0.5 : 1,
+    opacity: isDragging ? 0.3 : 1,
   }
+
+  const overlayStyle = isDragOverlay ? {
+    transform: 'rotate(-3deg)',
+    opacity: 0.95,
+    boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.3)',
+  } : {}
 
   const serviceType = SERVICE_TYPES.find((st) => st.value === activity.service_type)
 
@@ -38,16 +44,25 @@ export function ActivityCard({ activity, onClick, isDragOverlay = false }: Activ
       ref={setNodeRef}
       style={{
         ...style,
+        ...overlayStyle,
         borderLeft: activity.project ? `4px solid ${activity.project.color}` : undefined,
       }}
-      className="p-4 cursor-move hover:shadow-strong transition-all duration-200 hover:scale-[1.02] active:scale-100 bg-card"
+      className="p-4 hover:shadow-strong transition-all duration-200 hover:scale-[1.02] active:scale-100 bg-card"
       onClick={onClick}
-      {...listeners}
-      {...attributes}
     >
       <div className="space-y-3">
         <div className="flex items-start justify-between gap-2">
-          <h4 className="font-semibold text-sm line-clamp-2 flex-1">{activity.title}</h4>
+          {/* Drag Handle */}
+          <button
+            {...listeners}
+            {...attributes}
+            className="cursor-grab active:cursor-grabbing touch-none p-1 -ml-1 hover:bg-muted/50 rounded transition-colors"
+            title="Arrastrar para mover"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <GripVertical className="w-4 h-4 text-muted-foreground" />
+          </button>
+          <h4 className="font-semibold text-sm line-clamp-2 flex-1 min-w-0">{activity.title}</h4>
           <div className="flex items-center gap-1 shrink-0">
             {serviceType && (
               <Badge variant="secondary" className="text-xs">

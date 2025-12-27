@@ -3,6 +3,7 @@ import { QueryProvider } from './providers/QueryProvider'
 import { ThemeProvider } from './providers/ThemeProvider'
 import { AppLayout } from './components/layout/AppLayout'
 import { Login } from './pages/Login'
+import { Register } from './pages/Register'
 import { ForgotPassword } from './pages/ForgotPassword'
 import { Dashboard } from './pages/Dashboard'
 import { Clients } from './pages/Clients'
@@ -26,6 +27,7 @@ function App() {
           <Routes>
             {/* Public routes */}
             <Route path={ROUTES.LOGIN} element={<Login />} />
+            <Route path={ROUTES.REGISTER} element={<Register />} />
             <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
 
             {/* Protected routes */}

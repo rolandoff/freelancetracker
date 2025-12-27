@@ -17,6 +17,7 @@ import { RatesSettings } from './pages/settings/RatesSettings'
 import { InvoicesPage } from './features/invoices/pages/InvoicesPage'
 import { InvoiceCreatePage } from './features/invoices/pages/InvoiceCreatePage'
 import { InvoiceDetailPage } from './features/invoices/pages/InvoiceDetailPage'
+import { NotFound } from './pages/NotFound'
 import { ROUTES } from './lib/constants'
 
 function App() {
@@ -59,7 +60,7 @@ function App() {
             </Route>
 
             {/* 404 */}
-            <Route path="*" element={<Navigate to={ROUTES.DASHBOARD} replace />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

@@ -10,6 +10,12 @@ const config: StorybookConfig = {
     '@storybook/addon-interactions',
     '@storybook/addon-links'
   ],
-  "framework": "@storybook/react-vite"
+  "framework": "@storybook/react-vite",
+  viteFinal: async (config) => {
+    // Set base path for subfolder deployment
+    // Comment out this line for local development
+    config.base = '/storybook/';
+    return config;
+  }
 };
 export default config;
